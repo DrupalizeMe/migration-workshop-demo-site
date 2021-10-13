@@ -1,25 +1,29 @@
-# A Drupal via DDEV template on Gitpod
+# Drupalize.Me Migrations Workshop Environment
 
-This is a [Drupal via DDEV](https://github.com/drud/ddev) template configured for ephemeral development environments on [Gitpod](https://www.gitpod.io/).
+This repository contains scaffolding for a demo environment to use during the Drupalize.Me Drupal-to-Drupal migration workshop. And some dummy data (database and files) that replicate a production Drupal 7 site to serve as the migration source data.
 
-## Next Steps
+It contains configuration to run Drupal in [DDEV](https://github.com/drud/ddev) of for development environments on [Gitpod](https://www.gitpod.io/). It can be used in one of two ways:
 
-Click the button below to start a new development environment:
+## localhost
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/gitpod-io/template-php-drupal-ddev)
+Assuming you have DDEV-Local installed.
 
-## Get Started With Your Own Project
+- Clone this repo
+- Run `ddev start` in the root directory of the project
+- Install Drupal and dependencies `ddev composer install`
+- Import the D7 database into ddev with `ddev import-db --src=d7data/d7site.sql.gz --target-db=d7`
+- Unzip the D7 files archive `tar xvzf d7data/d7files.tar.gz --directory=d7data/`
 
-### A new project
+## GitPod - Cloud
 
-Click the above "Open in Gitpod" button to start a new workspace. Once you're ready to push your first code changes, Gitpod will guide you to fork this project so you own it.
+Click the button below to start a new development environment on GitPod:
 
-Run `.gitpod/gitpod-setup-ddev.sh` once the workspace has started to commence
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://github.com/DrupalizeMe/migration-workshop-demo-site)
 
-### An existing project
+Once the workspace has started you'll need to run the setup script once. Though it won't hurt if you run it again:
 
-To get started with Drupal via DDEV on Gitpod, add a [`.gitpod.yml`](./.gitpod.yml) file and the [`.gitpod`] directory which contain the configuration to improve the developer experience on Gitpod. To learn more, please see the [Getting Started](https://www.gitpod.io/docs/getting-started) documentation.
+Run `.gitpod/gitpod-setup-ddev.sh` from the VS Code terminal in the GitPod workspace.
 
 ## Special thanks
 
-This template was gifted to Gitpod by [Ofer Shaal](https://github.com/shaal) - Thank you 🙏!
+Thanks to [Ofer Shaal](https://github.com/shaal) for his work on DrupalPod which inspired this setup - Thank you 🙏!
