@@ -18,7 +18,7 @@ Assuming you have DDEV-Local installed.
 
 Click the button below to start a new development environment on GitPod:
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://github.com/DrupalizeMe/migration-workshop-demo-site)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/DrupalizeMe/migration-workshop-demo-site)
 
 Once the workspace has started you'll need to run the setup script once. Though it won't hurt if you run it again:
 
