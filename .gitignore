@@ -2,6 +2,8 @@
 ### GitHub repository .gitignore section
 ###
 
+d7data/sites/
+
 # Ignore files only needed on CI
 .bashrc
 
