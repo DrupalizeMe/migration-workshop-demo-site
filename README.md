@@ -22,7 +22,7 @@ Click the button below to start a new development environment on GitPod:
 
 Once the workspace has started you'll need to run the setup script once. Though it won't hurt if you run it again:
 
-Run `.gitpod/gitpod-setup-ddev.sh` from the VS Code terminal in the GitPod workspace.
+Run `./.gitpod/gitpod-setup-ddev.sh` from the VS Code terminal in the GitPod workspace.
 
 ## Special thanks
 
