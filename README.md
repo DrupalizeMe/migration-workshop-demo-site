@@ -37,9 +37,17 @@ Once DDEV is up and running on GitPod there are a few additional things you'll n
 Or do it manually:
 
 - Install Drupal and dependencies `ddev composer install`
-- Import the D7 database into ddev with `ddev import-db --src=d7data/d7site.sql.gz --target-db=d7`
-- Unzip the D7 files archive `ddev exec tar xvzf d7data/d7files.tar.gz --directory=d7data/`
+- Import the D7 source site database into ddev with `ddev import-db --src=d7data/d7site.sql.gz --target-db=d7`
+- Unzip the D7 source site codebase with `ddev exec tar xzf d7data/d7web.tar.gz --directory=/var/www/html`
+- Unzip the D7 source site files archive `ddev exec tar xvzf d7data/d7files.tar.gz --directory=d7data/`
 - Install Drupal
+
+For local development the two sites are available at:
+
+- Drupal 9 - https://migrate-workshop.ddev.site/
+- Drupal 7 source site - https://migrate-workshop-d7.ddev.site/
+
+Actual URLs will vary on GitPod.
 
 ## Helper Scripts
 
