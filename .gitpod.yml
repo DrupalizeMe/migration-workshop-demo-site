@@ -7,8 +7,12 @@ tasks:
   - name: ddev
     prebuild: |
       sudo cp .gitpod/gitpod-setup-ddev.sh /usr/local/bin/.
+    init: |
+      ./scripts/d7-data-setup.sh
+      ./scripts/d9-empty-install.sh
     command: |
       sudo cp .gitpod/gitpod-setup-ddev.sh /usr/local/bin/.
+      .gitpod/gitpod-setup-ddev.sh
       echo "System is ready, clone a project, `ddev config` if needed, and `gitpod-setup-ddev` to run it"
 
 # Set the following ports public
