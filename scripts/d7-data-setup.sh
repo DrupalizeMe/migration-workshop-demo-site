@@ -10,4 +10,6 @@ ddev exec tar xzf d7data/d7web.tar.gz --directory=/var/www/html
 echo "Extracting D7 content files from d7data/d7file.tar.gz into /var/www/html/d7web/sites/default/files"
 ddev exec tar xzf d7data/d7files.tar.gz --directory=/var/www/html/d7web
 
+ddev exec ln -s /var/www/html/d7web /var/www/html/web/_d7web
+
 echo "Done!"

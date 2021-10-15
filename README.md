@@ -49,6 +49,14 @@ For local development the two sites are available at:
 
 Actual URLs will vary on GitPod.
 
+- Drupal 9 - Look for the GitPod URL that starts with `8080-`
+
+  You can access the Drupal 9 site by running the command `preview` in the workspace terminal.
+
+- Drupal 7 - Drupal 7 will be in a subdirectory of the D9 site. Look for the GitPod URL that starts with `8080-`, and then add `/_d7web/` to the end of the URL.
+
+  You can access the Drupal 7 site by running the command `preview7` in the workspace terminal.
+
 ## Helper Scripts
 
 #### Drupal 7 source data setup
