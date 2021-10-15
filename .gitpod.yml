@@ -9,8 +9,9 @@ tasks:
       .gitpod/gitpod-setup-ddev.sh
       ./scripts/d7-data-setup.sh
       ./scripts/d9-empty-install.sh
-      sudo cp .gitpod/preview-d7.sh /usr/local/bin/preview7
-      sudo cp .gitpod/preview.sh /usr/local/bin/preview
+      sudo ln -s .gitpod/preview-7.sh /usr/local/bin/preview7
+      sudo ln -s .gitpod/preview.sh /usr/local/bin/preview
+      sudo ln -s .gitpod/gitpod-setup-ddev.sh /usr/local/bin/gitpod-setup-ddev
     command: |
       .gitpod/gitpod-setup-ddev.sh
       echo "System is ready, clone a project, `ddev config` if needed, and `gitpod-setup-ddev` to run it"
