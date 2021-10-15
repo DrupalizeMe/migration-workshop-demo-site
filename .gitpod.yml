@@ -6,31 +6,40 @@ image:
 tasks:
   - name: ddev
     init: |
-      .gitpod/gitpod-setup-ddev.sh
+      .gitpod/download-ddev-images.sh
+      .gitpod/ddev-in-gitpod-setup.sh
+      ddev start
       ./scripts/d7-data-setup.sh
       ./scripts/d9-empty-install.sh
-      sudo ln -s $GITPOD_REPO_ROOT/.gitpod/preview-7.sh /usr/local/bin/preview7
-      sudo ln -s $GITPOD_REPO_ROOT/.gitpod/preview.sh /usr/local/bin/preview
-      sudo ln -s $GITPOD_REPO_ROOT/.gitpod/gitpod-setup-ddev.sh /usr/local/bin/gitpod-setup-ddev
     command: |
-      .gitpod/gitpod-setup-ddev.sh
-      echo "System is ready, clone a project, `ddev config` if needed, and `gitpod-setup-ddev` to run it"
+      .gitpod/ddev-in-gitpod-setup.sh
+      .gitpod/env-setup.sh
+      ddev start
 
 # Set the following ports public
 ports:
+  # Used by ddev - direct-bind https port
+  - port: 2222
+    onOpen: ignore
+  # Used by ddev - local db clients
+  - port: 3306
+    onOpen: ignore
+  # Used by projector
   - port: 6942
     onOpen: ignore
-  - port: 8080
+  # Used by MailHog
   - port: 8025
     onOpen: ignore
-  - port: 8026
-    onOpen: ignore
+  # Used by phpMyAdmin
   - port: 8036
     onOpen: ignore
-  - port: 8037
+  # Direct-connect ddev-webserver port that is the main port
+  - port: 8080
     onOpen: ignore
-  - port: 8443
+  # xdebug port
+  - port: 9000
     onOpen: ignore
+  # projector port
   - port: 9999
 
 github:
