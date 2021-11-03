@@ -24,7 +24,7 @@ After the workspace is set up you can use VS Code in the cloud to edit your proj
 
 Once the workspace has started you'll need to run the setup script to launch DDEV.
 
-Run `./.gitpod/gitpod-setup-ddev.sh` from the VS Code terminal in the GitPod workspace.
+Run `./.gitpod/ddev-in-gitpod-setup.sh` from the VS Code terminal in the GitPod workspace.
 
 **Tip**: Sometimes when restarting the project you may need to run the above script again. For example if the host IP address changes. If DDEV starts, but you can't acces your Drupal site in the preview browser try running the script again.
 
