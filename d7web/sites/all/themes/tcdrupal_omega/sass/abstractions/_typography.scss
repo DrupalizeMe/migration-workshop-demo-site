@@ -1,0 +1,21 @@
+// Use REMs with a pixel fallback for font sizing.
+@mixin font-size($font-size){
+  font-size: $font-size;
+  font-size: ($font-size / $base-font-size)*1rem;
+}
+
+@mixin fonticon ($content) {
+	font-family: "tcdrupal" !important;
+	content: attr(data-icon);
+	font-style: normal !important;
+	font-weight: normal !important;
+	font-variant: normal !important;
+	text-transform: none !important;
+	speak: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	content: $content;
+}
+
+

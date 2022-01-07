@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * @file
+ * Allow custom order statuses to be translatable using Internationalization (i18n) package
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function i18n_commerce_custom_order_status_menu() {
+  $items = array();
+
+  $items['admin/commerce/config/order/status/%commerce_order_status/translate'] = array(
+    'title' => 'Translate order status',
+    'page callback' => 'i18n_string_object_translate_page',
+    'page arguments' => array('commerce_order_status', 5),
+    'access callback' => 'i18n_commerce_custom_order_status_access',
+    'type' => MENU_VISIBLE_IN_BREADCRUMB,
+  );
+
+  $items['admin/commerce/config/order/status/%commerce_order_status/translate/%'] = array(
+    'title' => 'Translate order status',
+    'page callback' => 'i18n_string_object_translate_page',
+    'page arguments' => array('commerce_order_status', 5, 7),
+    'access callback' => 'i18n_commerce_custom_order_status_access',
+    'type' => MENU_VISIBLE_IN_BREADCRUMB,
+  );
+
+  return $items;
+}
+
+/**
+ * Menu access callback function.
+ */
+function i18n_commerce_custom_order_status_access() {
+  return user_access('translate interface') && user_access('configure order settings');
+}
+
+/**
+ * Implements hook_commerce_order_status_info_alter().
+ */
+function i18n_commerce_custom_order_status_commerce_order_status_info_alter(&$order_statuses) {
+  foreach ($order_statuses as $name => $status) {
+    if (!empty($status['custom'])) {
+      $order_statuses[$name] = i18n_string_object_translate('commerce_order_status', $status);
+    }
+  }
+}

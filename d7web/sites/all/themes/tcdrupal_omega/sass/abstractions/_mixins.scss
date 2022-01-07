@@ -1,0 +1,252 @@
+//Panes Mixins//
+@mixin edge-to-edge {
+    margin-left:-20px;
+    margin-right:-20px;/*make divs look full width*/
+}
+@mixin auto{
+  margin-left: auto;
+  margin-right: auto;
+}
+
+
+
+//Misc
+
+@mixin image-box {
+    border:1px solid $light-grey;
+    padding:2px;
+    @include box-shadow($grey 1px 1px 3px);
+    float: left;
+    margin:0 1em 1em 0;
+}
+
+
+
+
+/* LAYOUT MIXINS
+------------------ */
+@mixin inline-setup-center{
+  display: inline-block;
+  vertical-align: middle;
+  font-size: $base-font-size;
+  width: 100%;
+}
+@mixin inline-setup{
+  display: inline-block;
+  vertical-align: top;
+  font-size: $base-font-size;
+  width: 100%;
+}
+@mixin inline-block-top{
+  display: inline-block;
+  vertical-align: top;
+}
+
+@mixin floatleft {
+    float: left;
+    margin:0 1em 1em;
+}
+
+@mixin floatright {
+    float: right;
+    margin:0 0 1em 1em;
+}
+
+@mixin constrained {
+  margin-left:auto;
+  margin-right: auto;
+  max-width:$max-width;
+}     
+
+
+//Calc arguments
+@mixin calc($property, $expression) { 
+  #{$property}: -webkit-calc(#{$expression});
+  #{$property}: -moz-calc(#{$expression});  
+  #{$property}: calc(#{$expression}); 
+} 
+
+
+/* GRADIENTS
+------------------ */
+@mixin blueLorangeR50{
+  @include background-image(linear-gradient(to right, rgba(82,200,236,.5), rgba(243,215,82,.5)));
+}
+
+
+/* OBJECT MIXINS
+----------------- */
+@mixin arrowYellow{
+  background: url(../images/svg/arrow-yellow.svg);
+  background-size: 100%;
+  background-position: 0 0;
+  padding: 14px 50px;
+  @include adjust-font-size-to(16px);
+  font-family: $rockwell;
+  font-weight: 800;
+  color: $black;
+  text-transform: uppercase;
+  white-space: pre;
+  &:hover{
+    background: url(../images/svg/arrow-blue.svg);
+    color: $white;
+  }
+}
+
+
+@mixin transTwoAll{
+  transition: all .2s ease;
+  -moz-transition: all .2s ease;
+  -webkit-transition: all .2s ease;
+  -webkit-transform: translateZ(0);
+}
+
+/*Placeholder selections
+--------------------*/
+
+/**
+ * $HLIST
+ */
+%hlist {
+  @include horizontal-list(false);
+   ol,ul {
+    padding-left: 0px;
+   }
+}
+
+/**
+ * $ISLAND
+ */
+%island,
+%islet {
+  display: block;
+  @include margin-trailer(1);
+  @include clearfix;
+
+  & > :last-child,
+  & > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+%island {
+  padding: $vert-spacing-unit $horz-spacing-unit;
+}
+
+%islet {
+  margin-bottom: $vert-spacing-unit / 2;
+  padding: ($vert-spacing-unit / 2) ($horz-spacing-unit / 2);
+}
+
+
+/* Animation Mixins
+--------------------- */
+@mixin animation($animate...) {
+    $max: length($animate);
+    $animations: '';
+
+    @for $i from 1 through $max {
+        $animations: #{$animations + nth($animate, $i)};
+
+        @if $i < $max {
+            $animations: #{$animations + ", "};
+        }
+    }
+    -webkit-animation: $animations;
+    -moz-animation:    $animations;
+    -o-animation:      $animations;
+    animation:         $animations;
+}
+
+@mixin keyframes($animationName) {
+    @-webkit-keyframes #{$animationName} {
+        @content;
+    }
+    @-moz-keyframes #{$animationName} {
+        @content;
+    }
+    @-o-keyframes #{$animationName} {
+        @content;
+    }
+    @keyframes #{$animationName} {
+        @content;
+    }
+}
+
+//zoom in
+@include keyframes(zoomIn){
+    from{
+        @include opacity(0);
+        @include scale3d(.3, .3, .3);
+    }
+    50%{
+        @include opacity(1);
+    }
+    100%{
+        @include opacity(1);
+        @include scale3d(1, 1, 1);
+    }
+}
+
+//slide in from 150% below (150% of the element height)
+@include keyframes(slideInUp){
+  0%{
+    @include translate3d(0, 150%, 0);
+      visibility: visible;
+  }
+  100%{
+    @include translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+  }
+}
+
+//delayed fade in
+@include keyframes(fadeInDelay){
+    0%{
+        @include opacity(0);
+    }
+    50%{
+        @include opacity(0);
+    }
+    100%{
+        @include opacity(1);
+    }
+}
+
+//scale 1.25 times then back to normal
+@include keyframes(breathe){
+    0%{
+        @include scale(1, 1);
+    }
+    50%{
+        @include scale(1.25, 1.25);
+    }
+    100%{
+        @include scale(1, 1);
+    }
+}
+
+//"random" zoom
+@mixin randomZoom{
+  &.zoom{
+    @include animation('zoomIn .5s 1 cubic-bezier(.23,.09,.3,1.12) forwards');
+    &:nth-of-type(7n+2){
+      animation-delay: .7s;
+    }
+    &:nth-of-type(7n+3){
+      animation-delay: .5s;
+    }
+    &:nth-of-type(7n+4){
+      animation-delay: .25s;
+    }
+    &:nth-of-type(7n+5){
+      animation-delay: 1.25s;
+    }
+    &:nth-of-type(7n+6){
+      animation-delay: 1s;
+    }
+    &:nth-of-type(7n+7){
+      animation-delay: 1.5s;
+    }
+  }
+}

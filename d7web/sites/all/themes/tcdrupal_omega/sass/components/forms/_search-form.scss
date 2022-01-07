@@ -1,0 +1,88 @@
+.block--search-form {
+	@include constrained;
+
+	h2.label {
+		display:none;
+	}
+
+	&.contextual-links-region {
+		position: static;
+	}
+
+		
+	//SEARCH FORM
+	.search-form {
+		position:absolute;
+		top:50px;
+		right:0px;
+		background:#fff;
+	    height: 32px;
+	    padding: 0 22px 0 12px;
+	    margin: 0 10px .5em 10px;
+	    z-index: 600;
+	    width:100%;
+	    max-width: 300px;
+	    border:1px solid $grey;
+
+	    &:focus {
+	      background: darken($tcdc-white, 5%);
+	    }
+
+		@include breakpoint($largephone,true) {
+			text-align:center;
+		}
+
+		@include breakpoint($tab, true) {
+		    width:100%;
+		    max-width: 440px;
+		}
+		.form-text {
+			    width: 100%;
+			    padding:0;
+			    background-color:none;
+			    border:none;
+			    color: $mid-grey;
+			    @include font-size(13px);
+		}
+
+		.form-submit {
+			    position: absolute;
+			    right: 5px;
+			    top: 5px;
+			    @include font-size(12px);
+		}
+		.lt-ie9 & {
+			width:300px;
+		}
+	}
+
+
+	.search-toggle {
+	    position: absolute;
+	    right:10px;
+	    top:10px;
+
+	    a {
+			display: block;
+			width:25px;
+			height: 25px;
+			font-size: 0px;
+			color: $tcdc-white;
+
+			&:hover {
+				color: $tcdc-green;
+			}
+		}
+
+		a:before {
+			@include fonticon ("e");
+			@include font-size(24px);
+		}
+
+	    @include breakpoint($tab, true) {
+	    	top:10px;
+	    }
+
+	}
+}
+

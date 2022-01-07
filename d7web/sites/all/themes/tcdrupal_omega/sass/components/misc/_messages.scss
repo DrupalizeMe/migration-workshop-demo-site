@@ -1,0 +1,28 @@
+/**
+ * $MESSAGES
+ */
+.messages {
+  padding-left: 10px;
+  margin-bottom: $vert-spacing-unit;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.messages--status {
+  color: $tcdc-navy;
+  background: lighten($tcdc-navy, 50%);
+  border-color: lighten($tcdc-navy, 20%);
+}
+
+.messages--warning {
+  color: $dark-grey;
+  background: lighten($tcdc-green, 50%);
+  border-color: lighten($tcdc-green, 20%);
+}
+
+.messages--error {
+  color: $tcdc-white;
+  background:$orange;
+  border-color:$orange;
+}

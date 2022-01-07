@@ -1,0 +1,91 @@
+<?php
+/**
+ * @file
+ * Custom blocks for the twin cities drupal camp website.
+ */
+
+/**
+ * Implements hook_block_info().
+ */
+function tcdrupalblocks_block_info() {
+  $blocks = array();
+  $blocks['about'] = array(
+    'info' => t('About Twin Cities Drupal Camp'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+  $blocks['camp_info'] = array(
+    'info' => t('Camp Information'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+  $blocks['twitter'] = array(
+    'info' => t('Twitter Stream'),
+    'cache' => DRUPAL_CACHE_GLOBAL,
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function tcdrupalblocks_block_view($delta = '') {
+  $blocks = tcdrupalblocks_block_info();
+  // Delegate to block builder function which should return a block array with
+  // 'subject', and 'content' keys.
+  //
+  // Each block lives in a file in blocks/$delta.inc and that file contains
+  // a function to build the block named _tcdrupalblocks_$delta().
+  if (isset($blocks[$delta])) {
+    $build = array();
+    $build['content'] = theme('tcdrupalblocks_' . $delta);
+    return $build;
+  }
+  // Just in case.
+  return array();
+}
+
+/**
+ * Implements hook_theme().
+ */
+function tcdrupalblocks_theme() {
+  $blocks = tcdrupalblocks_block_info();
+  $info = array();
+  foreach ($blocks as $delta => $values) {
+    $info['tcdrupalblocks_' . $delta] = array(
+      'variables' => array(),
+      'path' => drupal_get_path('module', 'tcdrupalblocks') . '/templates',
+      'template' => 'tcdrupalblocks-' . $delta,
+    );
+  }
+  return $info;
+}
+
+/**
+ * Implements hook_menu_block_blocks().
+ */
+function tcdrupalblocks_menu_block_blocks() {
+  // The array key is the block delta used by menu block.
+  return array(
+    'tcdrupalblocks-1' => array(
+      'menu_name'   => 'main-menu',
+      'parent_mlid' => 0,
+      'title_link'  => 0,
+      'admin_title' => 'Secondary Navigation',
+      'level'       => 2,
+      'follow'      => 0,
+      'depth'       => 0,
+      'expanded'    => 0,
+      'sort'        => 0,
+    ),
+    'tcdrupalblocks-2' => array(
+      'menu_name'   => 'main-menu',
+      'parent_mlid' => 0,
+      'title_link'  => 0,
+      'admin_title' => 'Main Navigation',
+      'level'       => 1,
+      'follow'      => 0,
+      'depth'       => 1,
+      'expanded'    => 0,
+      'sort'        => 0,
+    ),
+  );
+}

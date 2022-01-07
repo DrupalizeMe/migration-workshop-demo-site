@@ -1,0 +1,13 @@
+/**
+ * CSS styles for administrative forms.
+ */
+
+table#commerce-custom-order-status-table td.state-title {
+  font-size: 1.1em;
+  font-weight: bold;
+  text-align: center;
+}
+
+table#commerce-custom-order-status-table tr.status-disabled td {
+  color: #888888;
+}

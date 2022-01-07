@@ -1,0 +1,33 @@
+//WYSIWYG lists
+.node,.body{
+	ul{
+		overflow: hidden; //prevent floated images from screwing up bullets
+		padding-left: 30px;
+		margin: 0 0 2em;
+		& > li{
+			list-style: disc;
+			ul{
+				padding: 0 0 0 1em;
+			}
+			ol{
+				padding: 0 0 0 1em;
+				list-style: decimal;
+			}
+		}
+	}
+	ol{
+		overflow: hidden; //prevent floated images from screwing up bullets
+		padding-left: 30px;
+		margin: 0 0 2em;
+		& > li{
+			list-style: decimal;
+			ol{
+				padding: 0 0 0 1em;
+				list-style: decimal;
+			}
+			ul{
+				padding: 0 0 0 1em;
+			}
+		}
+	}
+}

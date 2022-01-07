@@ -1,0 +1,4 @@
+name = TCDrupal Drush
+description = Custom drush commands for tcdrupal.org sites.
+core = 7.x
+package = @TCDrupal

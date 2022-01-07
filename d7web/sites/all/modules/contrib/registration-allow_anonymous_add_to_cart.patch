@@ -1,0 +1,13 @@
+diff --git a/registration.module b/registration.module
+index 6e8ae94..232ba1b 100644
+--- a/registration.module
++++ b/registration.module
+@@ -1328,7 +1328,7 @@ function registration_access_people(Registration $registration, $account = NULL)
+   // Me
+   $settings = registration_entity_settings($registration->entity_type, $registration->entity_id);
+   $allow_multiple = !empty($settings['settings']['multiple_registrations']) && $settings['settings']['multiple_registrations'];
+-  if ($account->uid && ($account->uid === $registration->user_uid || (!registration_is_registered($registration, NULL, $account->uid) || $allow_multiple))) {
++  if (isset($account->uid) && ($account->uid === $registration->user_uid || (!registration_is_registered($registration, NULL, $account->uid) || $allow_multiple))) {
+     $people[REGISTRATION_REGISTRANT_TYPE_ME] = t('Myself');
+   }
+ 

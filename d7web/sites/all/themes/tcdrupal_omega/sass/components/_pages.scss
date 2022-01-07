@@ -1,0 +1,308 @@
+/*PAGES */
+
+.l-main {
+	background: $tcdc-white;
+  .not-front &{
+    padding: 2em 20px 1em;
+  }
+}
+
+.l-page {
+  height: auto; 
+  min-height: 100%;
+  overflow: hidden;
+  background: $white;
+}
+
+.l-content{
+  
+  .not-front &{
+    
+    & > h1{
+      max-width: 840px;
+      @include auto;
+    }
+    & > *:not(h1){
+      max-width: 840px;
+      @include auto;
+    }
+  }
+  & > .element-invisible{
+    display: none;
+  }
+
+  .no-sidebars h1 {
+    text-align: center;
+  }
+}
+
+/*Columns for Page
+-------------------*/
+//TABLETS: 12 col
+@include breakpoint($tab,true) {
+
+    //no-sidebars
+    .no-sidebars .l-content {
+      @include grid-span(12,1);
+    }
+
+    //one-sidebar left
+    .one_sidebar.sidebar_first {
+      .l-content {
+        @include grid-span(8,5);
+      }
+      .l-region--sidebar-first {
+        @include grid-span(4, 1);
+      }
+    }
+
+    //.one_sidebar right {
+    .one_sidebar.sidebar_second {
+      .l-content {
+        @include grid-span(8,1);
+      }
+      .l-region--sidebar-second {
+        @include grid-span(4, 9);
+      }
+    }
+
+    //two sidebars
+    .two-sidebars {
+      .l-content {
+        @include grid-span(6, 1);
+      }
+      .l-region--sidebar-first {
+        @include grid-span(3, 7);
+      }
+      .l-region--sidebar-second {
+        @include grid-span(3, 10);
+      }
+    }
+
+}
+
+
+//DESKTOPS: 16 col
+
+@include breakpoint($desk,true) {
+
+    //no-sidebars
+    .no-sidebars .l-content {
+      @include grid-span(16,1);
+    }
+
+    //one-sidebar left
+    .one_sidebar.sidebar_first {
+      .l-content {
+        @include grid-span(12,5);
+      }
+      .l-region--sidebar-first {
+        @include grid-span(4, 1);
+      }
+    }
+
+    //.one_sidebar right 
+    .one_sidebar.sidebar_second {
+      .l-content {
+        @include grid-span(12,1);
+      }
+      .l-region--sidebar-second {
+        @include grid-span(4, 13);
+      }
+    }
+
+    //two sidebars
+    .two-sidebars {
+      .l-content  {
+        @include grid-span(8, 5);
+      }
+      .l-region--sidebar-first {
+        @include grid-span(4, 1);
+      }
+      .l-region--sidebar-second {
+        @include grid-span(4, 13);
+      }
+    }
+}
+
+
+
+/* bottom region 
+------------------ */
+.l-region--bottom {
+  padding: 6px 0 0;
+  background: $white;
+  @include edge-to-edge;
+  clear:both;
+  max-width: 1430px;
+  @include breakpoint ($tab, true){
+    padding: 40px 20px;
+    @include clearfix;
+    @include auto;
+  }
+}
+
+/* footer region 
+------------------ */
+.l-footer{
+  background: $link;
+  padding: 30px 20px 100px;
+  text-align: center;
+  color: $white;
+  font-size: 16px;
+  @include clearfix;
+  &.isfixed{
+    @include breakpoint ($tab, true){
+      //position: fixed;
+      //bottom: -80px;
+      //left: 0;
+      width: 100%;
+      z-index: 900;
+      box-sizing: border-box;
+      @include transTwoAll;
+      &:hover{
+        bottom: 0;
+      }
+    }
+  }
+  @include breakpoint ($bigdesk, true){
+    font-size: 20px;
+  }
+  .l-region--footer{
+    @include auto;
+    max-width: 1430px;
+
+  }
+
+  a{
+    color: $white;
+    &:hover{
+      color: $transparent-white;
+    }
+  }
+}//end l-footer
+
+/*SPECIFIC PAGE nodes
+-------------------------- */
+
+//HOMEPAGE
+.front{
+
+	.l-page{
+		position: relative;
+	}
+	.l-region--highlighted{
+		@include clearfix;
+	}
+	.l-main {
+		background:$white;
+	}
+
+//hack
+  &.one_sidebar.sidebar_first {
+    .l-content, .l-region--sidebar-first, .l-region--sidebar-second  {
+      width:100%;
+      margin-left:0;
+      margin-right: 0;
+      float: none;
+    }
+  }
+}
+
+//end .front
+
+//USER PAGE
+.page-user {
+  .field {
+    margin-bottom: 0;//tighten up space between fields on user page
+  }
+  .block--views {
+    margin:2em 0;
+  }
+}
+
+
+/* NOT FRONT
+---------------------------*/
+.not-front {
+  .l-header{
+    @include background-image(linear-gradient(to bottom, $tcdc-green, $tcdc-green 60%, $tcdc-blue 160%));
+    overflow: hidden;
+    .site-branding{
+      max-width: 1430px;
+      @include auto;
+      font-size: 0;
+      .site-branding__logo{
+        @include inline-setup-center;
+        width: auto;
+        margin-left: -75px;
+        a:hover{
+          @include opacity(.7);
+        }
+        img{
+          display: block;
+          width: 180px;
+          max-width: 1000%;
+        }
+        @include breakpoint ($tab, true){
+          margin-left: -65px;
+          img{
+            width: 200px;
+            margin-top: -10px;
+          }
+        }
+        @include breakpoint ($desk, true){
+          margin-left: -85px;
+          img{
+            width: 266px;
+          }
+        }
+      }//end logo
+      .sitename{
+        @include inline-setup-center;
+        @include calc(width, "100% - 95px");
+        max-width: 210px;
+        box-sizing: border-box;
+        margin-left: -10px;
+        h2{
+          @include font-size(24px);
+          line-height: 1.1;
+          text-transform: uppercase;
+          a{
+            color: $black;
+            &:hover{
+              color: $link;
+              text-decoration: none;
+            }
+          }
+        }
+        h4{
+          @include font-size(18px);
+          text-transform: uppercase;
+        }
+        @include breakpoint ($tab, true){
+          width: 250px;
+          max-width: 100%;
+          margin-left: 10px;
+          h2{
+            @include font-size(28px);
+          }
+          h4{
+            @includez font-size(20px);
+          }
+        }
+        @include breakpoint($desk, true){
+          margin-left: 30px;
+        }
+      }//end sitename
+    }//end site branding
+  }//end header
+}//end not-front
+
+.not-front {
+
+  h1 {
+    margin-bottom: 0.5em;
+  }
+
+}

@@ -1,0 +1,224 @@
+/*WEB FONTS
+-------------------------------- */
+@include establish-baseline();
+
+
+/**
+ * $BASE-TYPOGRAPHY
+ */
+html {
+  font-kerning: normal; // Set the default for kerning
+  font-synthesis: none; // Don't allow the font to create sythetic bold/italic
+  font-family: $body;
+  @include adjust-leading-to(4);
+
+}
+
+/*DEFAULT TEXT SHADOWS*/
+
+$default-text-shadow-color: rgba(#666, 0.6);
+$default-text-shadow-blur: 3px;
+$default-text-shadow-v-offset: 1px;
+
+/*FONT ICONS
+*/
+@font-face {
+  font-family: "tcdrupal";
+  src:url("../fonts/tcdrupal.eot");
+  src:url("../fonts/tcdrupal.eot?#iefix") format("embedded-opentype"),
+    url("../fonts/tcdrupal.woff") format("woff"),
+    url("../fonts/tcdrupal.ttf") format("truetype"),
+    url("../fonts/tcdrupal.svg#tcdrupal") format("svg");
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+[data-icon]:before {
+  font-family: "tcdrupal" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+  font-family: "tcdrupal" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-menu:before {
+  content: "a";
+}
+.icon-comment:before {
+  content: "b";
+}
+.icon-star:before {
+  content: "c";
+}
+.icon-user:before {
+  content: "d";
+}
+.icon-search:before {
+  content: "e";
+}
+.icon-twitter:before {
+  content: "f";
+}
+.icon-googleplus:before {
+  content: "g";
+}
+.icon-drop:before {
+  content: "h";
+}
+.icon-searchtwo:before {
+  content: "i";
+}
+.icon-flickr:before {
+  content: "j";
+}
+.icon-youtube:before {
+  content: "l";
+}
+.icon-facebook:before {
+  content: "m";
+}
+.icon-cancel:before {
+  content: "n";
+}
+
+/**
+ * $HEADINGS
+ */
+
+#{headings(3)} {
+    -moz-font-feature-settings: "liga=1, dlig=1";
+    -ms-font-feature-settings: "liga", "dlig";
+    -webkit-font-feature-settings: "liga", "dlig";
+    -o-font-feature-settings: "liga", "dlig";
+    font-feature-settings: "liga", "dlig";
+    font-family:$header;
+    line-height: 1em;
+    letter-spacing: -1px;
+}
+
+h1, .alpha {
+  @include adjust-font-size-to(32px);
+  margin: rhythm(1,32px) 0 rhythm(1,32px);
+  line-height: 1.15em;
+  font-family: $rockwell;
+  font-weight:800;
+  color: $black;
+  text-transform: uppercase;
+  
+  @include breakpoint(0px $tab) {
+    line-height: 1;
+  }
+
+  @include breakpoint ($bigdesk, true){
+    @include adjust-font-size-to(44px);
+    margin: rhythm(1,44px) 0 rhythm(1,44px);
+  }
+  
+}
+
+h2, .beta {
+  font-weight:800;
+  @include adjust-font-size-to(24px);
+  margin: rhythm(1, 24px) 0 rhythm(1, 24px) 0; 
+  font-family: $rockwell;
+  color: $black;
+  @include breakpoint ($bigdesk, true){
+    @include adjust-font-size-to(28px);
+    margin: rhythm(1,28px) 0 rhythm(1,28px);
+  }
+}
+
+h3, .gamma {
+  @include adjust-font-size-to(24px);
+  margin: rhythm(3, 21px) 0;
+  //@include trailing-border;
+  color:$tcdc-navy;
+  line-height: 1em;
+  font-family: $rockwell;
+  font-weight: 700;
+  //border-color:$grey;
+  @include breakpoint ($bigdesk, true){
+    @include adjust-font-size-to(28px);
+    margin: rhythm(1,28px) 0 rhythm(1,28px);
+  }
+}
+
+h4, .delta {
+  font-family: $body;
+  color: $black;
+  margin: rhythm(1, 20px) 0; 
+  @include adjust-font-size-to(20px);
+  font-weight:700;
+}
+
+h5 {
+  font-family: $body;
+  font-weight:700;
+  margin:rhythm(1, 18px) 0; 
+  @include adjust-font-size-to(18px);
+
+}
+
+h6 {
+  font-family: $body;
+  font-weight:700;
+  @include adjust-font-size-to(16px);
+  margin:rhythm(1, 16px) 0;
+}
+
+
+/**
+ * $PARAGRAPHS
+ */
+p,%p {
+  margin: 0 0 1em 0;
+}
+
+p ~ img {
+  float: left;
+  margin-right: $horz-spacing-unit;
+}
+
+/**
+ * $QUOTES
+ */
+blockquote {
+  @extend %p;
+  @include rhythm(0, 1, 1, 1);
+  padding: 0 1.5em;
+
+  @include rhythm-borders(1px);
+  @include apply-side-rhythm-border(left, 10px);
+  font-style: italic;
+  color: $dark-blue;
+
+  p {
+    margin: 0;
+  }
+}
+
+q {
+  font-style: italic;
+}
+
+
+

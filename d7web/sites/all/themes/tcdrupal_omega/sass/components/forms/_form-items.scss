@@ -1,0 +1,99 @@
+/**
+ * $FORM-ITEM
+ */
+
+ form {
+  margin:1em 0;
+ }
+
+ 
+.form-item {
+  // color: $mid-grey;
+
+  label {
+    margin-bottom: 0.4em;
+    text-transform: uppercase;
+    @include font-size(16px);
+
+    &.option {
+      text-transform: none;
+    }
+  }
+  .form-select,
+  .form-text,
+  .form-textarea {
+    width: 100%;
+    background-color: #fff;
+    border: 1px solid $light-grey;
+    color: $tcdc-midblue;
+    vertical-align: middle;
+    max-width: 520px;
+    border-radius: 4px;
+    padding: 6px 7px 8px;
+    box-sizing: border-box;
+    margin: 0;
+    font-family: $body;
+    @include font-size(16px);
+    @include input-placeholder{
+      color: $tcdc-midblue;
+      @include opacity(1);
+    }
+     &:focus{
+      box-shadow: 0 0 5px rgba(35,35,35,0.3);
+      outline: none !important;
+      background: $white;
+      @include input-placeholder{
+        @include opacity(.1);
+      }
+    } 
+  }
+  .description {
+    margin-top: 0.2em;
+    font-style: italic;
+  }
+}
+
+//buttons
+  input[type="submit"]{
+    font-family: $body;
+    border: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: .35em 1em;
+    height: auto;
+    margin: 0 1em 0 0 !important;
+    border-radius: 0;
+    color: $white;
+    @include font-size(18px);
+    background: $link;
+    &:hover{
+      background: $hover-link;
+      text-decoration:underline;
+    }
+    &:active {
+      background:$black;
+    }
+  }
+
+.container-inline {
+  .form-select,
+  .form-text,
+  .form-textarea {
+    width: auto;
+  }
+}
+
+.resizable-textarea .grippie {
+  max-width: 600px;
+}
+
+.form-type-select{
+  max-width: 520px;
+  min-width: 140px;
+  .select2-selection--single .select2-selection__rendered{
+    margin-top: 5px;
+    color: $tcdc-midblue !important;
+    @include font-size(16px);
+  }
+}
+

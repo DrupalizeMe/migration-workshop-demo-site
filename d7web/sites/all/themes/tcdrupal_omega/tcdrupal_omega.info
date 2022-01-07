@@ -1,0 +1,35 @@
+name = TC Drupal Omega 2017
+description = Custom theme for TCDC by Electric Citizen
+base theme = omega
+screenshot = screenshot.png
+engine = phptemplate
+core = 7.x
+
+; ========================================
+; Stylesheets
+; ========================================
+stylesheets[all][] = css/tcdrupal-omega.styles.css
+stylesheets[all][] = js/select2/select2.min.css
+
+; ========================================
+; Scripts
+; ========================================
+;scripts[] = js/tcdrupal-omega.behaviors.js
+;scripts[] = js/ios-orientationchange-fix.js
+;scripts[] = js/off-canvas.js
+scripts[] = js/custom.js
+scripts[] = js/select2/select2.min.js
+
+; ========================================
+; Regions
+; ========================================
+regions[branding] = Branding
+regions[header] = Header
+regions[navigation] = Navigation
+regions[highlighted] = Highlighted
+regions[help] = Help
+regions[content] = Content
+regions[sidebar_first] = First Sidebar
+regions[sidebar_second] = Second Sidebar
+regions[bottom] = Bottom
+regions[footer] = Footer

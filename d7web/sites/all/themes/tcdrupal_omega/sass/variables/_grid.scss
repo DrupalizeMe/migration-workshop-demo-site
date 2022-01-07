@@ -1,0 +1,27 @@
+// Set consistent vertical and horizontal spacing units.
+$vert-spacing-unit: 18px;
+$horz-spacing-unit: 1em;
+
+//breakpoints
+@include breakpoint-set('to ems', true);
+
+$largephone:400px;
+$smalltab:500px;
+$tab: 760px;
+$desk:900px;
+$middesk: 1200px;
+$bigdesk: 1500px;
+$onlysmall:max-width 759px; 
+$no-queries: 678px, 'no-query' true;
+$onlytab : 760px 899px;
+
+$max-width:980px;
+
+
+// Singularity 1.2 Syntax
+@include add-grid(4);
+@include add-grid(12 at $tab);
+@include add-grid(16 at $desk);
+
+@include add-gutter(1/3);
+@include add-gutter(.5 at $desk);

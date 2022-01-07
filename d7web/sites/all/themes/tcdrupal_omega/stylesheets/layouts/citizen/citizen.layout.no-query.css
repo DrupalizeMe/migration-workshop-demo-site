@@ -1,0 +1,95 @@
+/*
+Error: File to import not found or unreadable: breakpoint.
+       Load paths:
+         Compass::SpriteImporter
+         /Users/adamfuchs/Sites/tcdrupal2017/sites/all/themes/tcdrupal_omega/sass
+         /Users/adamfuchs/.rvm/gems/ruby-2.2.0/gems/compass-core-1.0.3/stylesheets
+        on line 7 of /Users/adamfuchs/Sites/tcdrupal2017/sites/all/themes/tcdrupal_omega/sass/_init.scss
+        from line 7 of /Users/adamfuchs/Sites/tcdrupal2017/sites/all/themes/tcdrupal_omega/sass/layouts/citizen/citizen.layout.scss
+        from line 5 of /Users/adamfuchs/Sites/tcdrupal2017/sites/all/themes/tcdrupal_omega/sass/layouts/citizen/citizen.layout.no-query.scss
+
+2: $breakpoint-no-query-fallbacks: true;
+3: 
+4: // Re import everything  but without media queries.
+5: @import "citizen.layout";
+6: @import "citizen.styles";
+
+Backtrace:
+/Users/adamfuchs/Sites/tcdrupal2017/sites/all/themes/tcdrupal_omega/sass/_init.scss:7
+/Users/adamfuchs/Sites/tcdrupal2017/sites/all/themes/tcdrupal_omega/sass/layouts/citizen/citizen.layout.scss:7
+/Users/adamfuchs/Sites/tcdrupal2017/sites/all/themes/tcdrupal_omega/sass/layouts/citizen/citizen.layout.no-query.scss:5
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/import_node.rb:67:in `rescue in import'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/import_node.rb:45:in `import'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/import_node.rb:28:in `imported_file'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/import_node.rb:37:in `css_import?'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:311:in `visit_import'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/stack.rb:79:in `block in with_base'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/stack.rb:115:in `with_frame'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/stack.rb:79:in `with_base'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:158:in `visit'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:325:in `block (2 levels) in visit_import'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:325:in `map'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:325:in `block in visit_import'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/stack.rb:88:in `block in with_import'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/stack.rb:115:in `with_frame'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/stack.rb:88:in `with_import'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:322:in `visit_import'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/stack.rb:79:in `block in with_base'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/stack.rb:115:in `with_frame'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/stack.rb:79:in `with_base'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:158:in `visit'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:325:in `block (2 levels) in visit_import'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:325:in `map'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:325:in `block in visit_import'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/stack.rb:88:in `block in with_import'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/stack.rb:115:in `with_frame'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/stack.rb:88:in `with_import'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:322:in `visit_import'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:158:in `block in visit'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/stack.rb:79:in `block in with_base'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/stack.rb:115:in `with_frame'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/stack.rb:79:in `with_base'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:158:in `visit'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/base.rb:52:in `block in visit_children'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/base.rb:52:in `map'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/base.rb:52:in `visit_children'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:167:in `block in visit_children'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:179:in `with_environment'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:166:in `visit_children'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/base.rb:36:in `block in visit'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:186:in `visit_root'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/base.rb:36:in `visit'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:157:in `visit'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/visitors/perform.rb:8:in `visit'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/root_node.rb:36:in `css_tree'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/tree/root_node.rb:29:in `render_with_sourcemap'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/engine.rb:368:in `_render_with_sourcemap'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/engine.rb:285:in `render_with_sourcemap'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/plugin/compiler.rb:490:in `update_stylesheet'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/plugin/compiler.rb:209:in `each'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0@global/gems/sass-3.4.14/lib/sass/plugin/compiler.rb:293:in `watch'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0/gems/compass-1.0.3/lib/compass/sass_compiler.rb:46:in `watch!'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0/gems/compass-1.0.3/lib/compass/commands/watch_project.rb:41:in `perform'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0/gems/compass-1.0.3/lib/compass/commands/base.rb:18:in `execute'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0/gems/compass-1.0.3/lib/compass/commands/project_base.rb:19:in `execute'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0/gems/compass-1.0.3/lib/compass/exec/sub_command_ui.rb:43:in `perform!'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0/gems/compass-1.0.3/lib/compass/exec/sub_command_ui.rb:15:in `run!'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0/gems/compass-1.0.3/bin/compass:30:in `block in <top (required)>'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0/gems/compass-1.0.3/bin/compass:44:in `call'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0/gems/compass-1.0.3/bin/compass:44:in `<top (required)>'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0/bin/compass:23:in `load'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0/bin/compass:23:in `<main>'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0/bin/ruby_executable_hooks:15:in `eval'
+/Users/adamfuchs/.rvm/gems/ruby-2.2.0/bin/ruby_executable_hooks:15:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Error: File to import not found or unreadable: breakpoint.\A        Load paths:\A          Compass::SpriteImporter\A          /Users/adamfuchs/Sites/tcdrupal2017/sites/all/themes/tcdrupal_omega/sass\A          /Users/adamfuchs/.rvm/gems/ruby-2.2.0/gems/compass-core-1.0.3/stylesheets\A         on line 7 of /Users/adamfuchs/Sites/tcdrupal2017/sites/all/themes/tcdrupal_omega/sass/_init.scss\A         from line 7 of /Users/adamfuchs/Sites/tcdrupal2017/sites/all/themes/tcdrupal_omega/sass/layouts/citizen/citizen.layout.scss\A         from line 5 of /Users/adamfuchs/Sites/tcdrupal2017/sites/all/themes/tcdrupal_omega/sass/layouts/citizen/citizen.layout.no-query.scss\A \A 2: $breakpoint-no-query-fallbacks: true;\A 3: \A 4: // Re import everything  but without media queries.\A 5: @import \"citizen.layout\";\A 6: @import \"citizen.styles\";"; }

@@ -1,0 +1,72 @@
+/**
+ * $NODE
+ */
+.node--teaser {
+  margin-bottom: $vert-spacing-unit;
+}
+
+.node__links {
+  margin-bottom: $vert-spacing-unit;
+}
+
+
+
+.field__label { //experiment with field label on nodes, see if this works
+	// border-bottom:1px dotted $black;
+	padding-bottom:6px;
+	// @include inline-block;
+}
+
+.l-region--sidebar-first, 
+.l-region--sidebar-second {
+		padding:1em 0;
+}
+
+/*BASIC PAGE nodes
+--------------------------- */
+
+
+
+/*SESSION nodes
+--------------------------- */
+.node-type-session {
+
+	
+
+//not using sidebar first!
+
+	//TABLETS: 12 col
+
+	@include breakpoint($tab,true) {
+
+	    .l-content {
+	      @include grid-span(8, 1);
+	    }
+	    .l-region--sidebar-first {
+	      @include grid-span(8, 1);
+
+	    }
+	    .l-region--sidebar-second {
+	      @include grid-span(4, 9);
+	    }
+	}
+
+
+	//DESKTOPS: 16 col
+
+	@include breakpoint($desk,true) {
+
+	    .l-content  {
+	      @include grid-span(12, 1);
+	    }
+	    .l-region--sidebar-first {
+	      @include grid-span(12, 1);
+	    }
+	    .l-region--sidebar-second {
+	      @include grid-span(4, 13);
+	    }
+	}
+
+
+	
+}

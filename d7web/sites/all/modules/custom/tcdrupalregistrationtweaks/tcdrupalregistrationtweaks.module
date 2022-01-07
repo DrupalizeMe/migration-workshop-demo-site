@@ -1,0 +1,141 @@
+<?php
+/**
+ * @file
+ * Customizing the registration process for the TCDrupal website.
+ */
+
+/**
+ * Implements hook_registration_presave().
+ */
+function tcdrupalregistrationtweaks_registration_presave(Registration $registration) {
+  // Check to make sure this is a new registration entity and that it's being
+  // created by one user on behalf of another person. Then, we can create an
+  // account for the "other person" and re-assign the registration to them.
+  if (isset($registration->anon_mail)) {
+    $email = $registration->anon_mail;
+
+    // See if there is already a user with this email address.
+    $account = user_load_by_mail($email);
+
+    if (!$account) {
+      // Generate a new user account for the person this registration is for.
+      $user = array(
+        'is_new' => TRUE,
+        'name' => $email,
+        'mail' => $email,
+        'pass' => user_password(),
+        'status' => 1,
+      );
+      $account = user_save(NULL, $user);
+    }
+
+    // Change the registration so that it belongs to the new account.
+    $registration->user_uid = $account->uid;
+    $registration->anon_mail = NULL;
+
+    // Then make sure we send them the account registration email.
+    _user_mail_notify('register_no_approval_required', $account);
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function tcdrupalregistrationtweaks_form_alter(&$form, &$form_state, $form_id) {
+  // Hide the shirt size field on the normal entity registration form.
+  if ($form_id == 'registration_form' && isset($form['#entity'])) {
+    // If this registration is NOT associated with a premium registration
+    // product, then we need to hide the shirt size field.
+    if (!in_array($form['#entity']->entity_id, array(17, 24)) && $form['#entity']->entity_type == 'commerce_product') {
+      $form['field_reg_shirt_size']['#access'] = FALSE;
+    }
+  }
+
+  // Hide the shirt size field during checkout.
+  if ($form_id == 'commerce_checkout_form_registration') {
+    foreach ($form['registration_information'] as $sku => $item) {
+      if (strpos($sku, 'CAMP_REGULAR')) {
+        foreach ($form['registration_information'][$sku] as $key => $element) {
+          $form['registration_information'][$sku][$key]['field_reg_shirt_size']['#access'] = FALSE;
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_user_view().
+ *
+ * Add information about a user's registration(s) to their account profile page.
+ */
+function tcdrupalregistrationtweaks_user_view($account, $view_mode, $langcode) {
+  global $user;
+
+  if ($user->uid === $account->uid || user_access('administer users')) {
+    // Get a list of all of the registration entities associated with this user.
+    $query = new EntityFieldQuery();
+    $query->entityCondition('entity_type', 'registration');
+    $query->propertyCondition('author_uid', $account->uid);
+    $rids = $query->execute();
+
+    // If there are any associated registrations list them with link to the edit
+    // page for that registration.
+    if (isset($rids['registration'])) {
+      $rids = array_keys($rids['registration']);
+      $registrations = registration_load_multiple($rids);
+
+      // Build a list of links.
+      $registration_links = array();
+      foreach ($registrations as $registration) {
+        // Load the host entity so we can get it's title.
+        $host_entity = entity_load_single($registration->entity_type, $registration->entity_id);
+        $registration_links[] = t('Registration for @title', array('@title' => $host_entity->title));
+      }
+
+      // If we have links add them to the user's profile page, otherwise skip
+      // the listing.
+      $registration_edit = array();
+      if (count($registration_links) >= 1) {
+        $registration_edit['registration-' . $registration->registration_id] = array(
+          'heading' => array(
+            '#type' => 'markup',
+            '#markup' => t('<h3>Registration info</h3>'),
+          ),
+          'links' => array(
+            '#theme' => 'item_list',
+            '#items' => $registration_links,
+          ),
+        );
+      }
+      $account->content['registrations'] = $registration_edit;
+      $account->content['registrations']['#weight'] = -100;
+    }
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for 'registration_delete_confirm'.
+ */
+function tcdrupalregistrationtweaks_form_registration_delete_confirm_alter(&$form, &$form_state) {
+  // Load the registration's host entity.
+  $registration = $form['registration']['#value'];
+  $host_entity = entity_load_single($registration->entity_type, $registration->entity_id);
+  // Change the confirmation form's language to assure the user that they are
+  // only canceling the free training registration.
+  drupal_set_title(t('Are you sure you want to cancel registration %registration_id for %title?', array('%registration_id' => $registration->registration_id, '%title' => $host_entity->title)), TRUE);
+  $form['description']['#markup'] = '<p>This will allow you to sign up for a different Thursday event.</p>';
+  $form['actions']['cancel']['#title'] = t('No, keep me registered for this event');
+  $form['actions']['submit']['#value'] = t('Unregister from this event');
+  $form['actions']['submit']['#suffix'] = ' ';
+}
+
+/**
+ * Implements hook_field_extra_fields().
+ */
+function tcdrupalregistrationtweaks_field_extra_fields() {
+  $extra['user']['user']['display']['registrations'] = array(
+    'label' => t('Registrations list'),
+    'weight' => 0,
+  );
+  return $extra;
+}

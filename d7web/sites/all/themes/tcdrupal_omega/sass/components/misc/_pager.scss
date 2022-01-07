@@ -1,0 +1,35 @@
+/**
+ * $PAGER
+ */
+.pager {
+  @include clearfix;
+}
+
+.pager__item {
+  display: block;
+  float: left;
+  margin: 0.1em;
+  padding: 0;
+}
+
+.pager__item a,
+.pager__item--current,
+.pager__item--ellipsis {
+  display: block;
+  padding: 0.5em 0.8em;
+  border: 1px solid $grey;
+  color: $mid-grey;
+  text-decoration: none;
+}
+.pager__item a:hover {
+  background-color: $tcdc-navy;
+  border-color: $tcdc-navy;
+  color: $tcdc-white;
+}
+.pager__item--current {
+  border-color: $tcdc-navy;
+  color: $tcdc-navy;
+}
+.pager__item--ellipsis {
+  border: none;
+}

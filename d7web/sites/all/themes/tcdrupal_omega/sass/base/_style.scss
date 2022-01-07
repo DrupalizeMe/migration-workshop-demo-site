@@ -1,0 +1,88 @@
+/*Base styles for links, backgrounds, and other misc*/
+
+
+
+html {
+}
+
+/*Background Colors*/
+body {
+  background:$tcdc-white;
+  color: #404040;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+
+/**
+ * $LINKS
+ */
+a {
+  &:link, &:visited {
+  color: $link;
+  text-decoration: none;
+  outline: none;
+  }
+
+  &:hover, &:focus {
+    text-decoration: underline;
+    color: $hover-link;
+  }
+
+  &.active, &:active {
+    color:darken($hover-link,10%);
+  }
+  
+}
+
+/**
+ *MISC
+ */
+
+a.toggler {
+  color: $grey;
+
+  &:hover {
+    color: $dark-grey;
+    cursor: hand;
+  }
+}
+.toggler:after {
+  content: " +";
+}
+
+.toggler.open {
+  color:$grey;
+}
+.toggler.open.active:after {
+      content: " -";
+}
+
+
+.floatright {
+  @include breakpoint($tab) {
+    @include floatright;
+  }
+}
+
+.floatleft {
+  @include breakpoint($tab) {
+    @include floatleft;
+  }
+}
+
+em{
+  font-style: italic;
+}
+strong{
+  font-weight: bold;
+}
+
+
+/* SITEWIDE ------------------- */
+
+html, body {
+  height: 100%;
+}
+
+

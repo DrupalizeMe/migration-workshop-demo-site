@@ -1,0 +1,370 @@
+/**
+ * $BREADCRUMBS
+ */
+.breadcrumb {
+  display: none;
+  @extend %hlist;
+  max-width: 1200px;
+  margin:0 auto 2px;
+
+
+  li {
+    padding-right: 0.4em;
+    color: $grey;
+    line-height: 1.3;
+
+
+    &:after {
+      content: "\0000BB";
+      padding-left: 0.4em;
+      vertical-align: baseline;
+    }
+    &:last-child:after {
+      content: "";
+    }
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
+
+/*MAIN MENU, Superfish Styles
+----------------------------------*/
+
+.block--superfish-1 {
+  margin: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 500;
+  width: 100%;
+}
+
+/*TOP LEVEL */
+
+.sf-menu.sf-horizontal {
+  text-align: right;
+  padding: 0 10px 0 0;
+}
+
+.sf-menu.sf-horizontal li {
+  @include font-size(24px);
+  @include inline-block;
+  font-family: $header;
+  float: none;
+
+  .sf-sub-indicator {
+    display:none;
+  }
+
+  a {
+    color: $black;
+    padding: 30px 10px 15px;
+    @include font-size(17px);
+    text-transform: uppercase;
+    
+    font-weight: 800;
+    letter-spacing: 1px;
+    box-sizing: border-box;
+    &:hover, &:focus, &.active, &.active-trail {
+      color: $link;
+    }
+    @include breakpoint ($bigdesk, true){
+      @include font-size(21px);
+    }
+  }
+}
+
+//top level active only
+.sf-menu.sf-horizontal > li > a{
+  &.active,.active-trail{
+    background: $white;
+  }
+}
+
+
+/*DROPDOWNS, FIRST SET */
+
+.sf-menu.sf-horizontal > li:hover > ul,
+.sf-menu.sf-horizontal > li.sfHover > ul {
+  right: 0;
+  top: 100%;
+  left: auto;
+  padding: 10px 0;
+  // background: $link;
+  max-width: 300px;
+}
+
+.sf-menu.sf-horizontal li li {
+  height:auto;
+  padding:0px;
+  @include font-size(16px);
+  color:$light-grey;
+  text-align: left;
+  display: block;
+  font-family: $body;
+  float: left;//reset from top level
+
+  a {
+    color: $white;
+    text-transform:none;
+    background: $tcdc-darkgreen;
+    padding: .75em 1em ;/*reset padding*/
+    @include font-size(15px);
+    line-height: 1.35em;
+    letter-spacing: .5px;
+    &.active, &:active {
+      background:$tcdc-blue;
+    }
+    &:hover {
+      background: $link;
+      color: $white;
+    }
+    @include breakpoint ($bigdesk, true){
+      @include font-size(18px);
+    }
+  }
+  &:not(:last-child){
+    & > a{
+      border-bottom: 1px solid $transparent-white;
+    }
+  }
+
+  .sf-sub-indicator {
+    display: block;
+  }
+}
+
+/*SECOND LEVEL */
+.sf-menu.sf-horizontal li li li a  {
+  text-transform: none;
+}
+
+
+
+
+/*Main Menu, MOBILE
+-------------------  */
+
+/*TOGGLE */
+.block--superfish-1 .sf-accordion-toggle {
+  right: 10px;
+  position: absolute;
+  top: -15px;
+  z-index: 1000;
+  a {
+    display: block;
+    width:30px;
+    height:30px;
+    position:relative;
+    top:24px;
+    left:0px;
+    color: $link;
+    &:before {
+      @include fonticon ("a");
+      @include font-size(32px);
+    }
+    &.sf-expanded:before {
+      @include fonticon("n");
+      color: $white;
+
+    }
+  }
+
+  span {
+    position: absolute;
+    left:35px;
+    top:0px;
+    display:none;
+    /*hide menu text*/
+  }
+}
+
+/*EXPANDED MENU*/
+
+.block--superfish-1 .sf-accordion.sf-menu {
+  margin-top: 0;
+  background: $tcdc-darkgreen;
+  margin-bottom: 0;
+  padding: 30px 0 10px;
+  text-align: center;
+}
+
+.block--superfish-1 .sf-accordion.sf-menu li a {
+  color: $white;
+  padding: 1em;
+  @include font-size(20px);
+  letter-spacing: 1px;
+  line-height: 1.35em;
+  font-family: $rockwell;
+  font-weight: 800;
+  &:hover {
+    color: $tcdc-lime;
+    text-decoration: none;
+  }
+  &.active{
+    color: $tcdc-lime;
+  }
+}
+
+//level 1 only
+.block--superfish-1 .sf-accordion.sf-menu > li:not(:last-child) > a{
+  border-bottom: 1px solid $transparent-lightwhite;
+}
+
+.block--superfish-1 .sf-accordion.sf-menu li.sf-expanded {
+
+  a {
+    border:none;//reset
+  }
+
+  ul {
+    padding: 0 0 1em;
+    border-bottom: 1px solid $transparent-lightwhite;
+  }
+
+  ul li a {
+    border:none;
+    text-transform:none; 
+    margin:0;
+    padding: .5em 1em;
+    @include font-size(18px);
+  }
+}
+
+//level 2 of accordion menu
+
+.block--superfish-1 .sf-accordion.sf-menu li li {
+}
+
+.block--superfish-1 .sf-accordion.sf-menu li a li a {
+    padding-left: 10px;
+    text-transform: none;
+    border:none;
+    background:$grey;
+}
+
+
+/*SECONDARY MENU
+--------------------------- */
+
+.block--menu-menu-secondary-menu {
+  @include breakpoint ($tab, true){
+    float: right;
+    width: 50%;
+    padding: 0 0 20px;
+  }
+  h2.block__title{
+    display: none;
+  }
+  @include constrained;
+  @extend %hlist;
+  padding:0 10px;
+
+  ul.menu {
+    padding-left: 0;
+    text-align: center;
+    @include breakpoint($tab, true) {
+      margin:0;
+      float: right;
+      text-align: left;
+    }
+  }
+
+  ul.menu > li.leaf {
+    list-style-image: none;
+    float: none;/*no float til wider screen*/
+    &:not(:last-of-type){
+      &:after{
+        content: "|";
+        padding: 0 6px 0 8px;
+        color: $transparent-white;
+        position: relative;
+        top: -2px;
+      }
+    }
+
+    @include breakpoint($tab, true) {
+      float: left;
+    }
+
+    &.last {
+      padding-right:0px;
+    }
+
+    a{
+
+      &:hover, &.active {
+      }
+    }
+  }
+
+
+
+}
+
+
+/*USER MENU
+------------------------- */
+
+.block--system-user-menu {
+  margin:10px auto;
+  width:100%;
+  float: left;
+  @include clearfix;
+
+  @include breakpoint($tab, true) {
+    float: right;
+    margin-right:50px;
+    width:auto;
+  }
+  @include breakpoint($desk, true) {
+  }
+
+  ul.menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+  }
+
+  ul.menu li {
+    @include inline-block;
+    margin-right: 2px;
+    @include font-size(13px);
+
+    @include breakpoint($smalltab, true) {
+      @include font-size(15px);
+    }
+
+    @include breakpoint($tab, true) {
+      margin-right: 10px;
+      @include font-size(16px);
+    }
+
+     a {
+      color:$tcdc-white;
+      position:relative;
+
+      &:hover, &.active {
+        color:$pale-blue;
+        text-decoration: underline;
+      }
+
+
+    }
+
+  }
+
+}
+
+
+/*MENU block
+---------------------------- */
+.block.block--menu-block {
+
+  .menu {
+    padding:0 20px;
+  }
+}

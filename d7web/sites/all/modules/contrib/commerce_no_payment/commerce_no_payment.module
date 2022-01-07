@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * @file
+ * Provides a payment method for Drupal Commerce for orders that do not require a payment (free stuff).
+ */
+
+
+/**
+ * Implements hook_commerce_payment_method_info().
+ */
+function commerce_no_payment_commerce_payment_method_info() {
+  $payment_methods = array();
+
+  $payment_methods['commerce_no_payment'] = array(
+    'title' => t('No payment required'),
+    'description' => t('Does a complete payment transaction with no payment required.'),
+    'active' => TRUE,
+  );
+
+  return $payment_methods;
+}
+
+/**
+ * Payment method callback: submit form.
+ */
+function commerce_no_payment_submit_form($payment_method, $pane_values, $checkout_pane, $order) {
+  $form = array();
+  return $form;
+}
+
+/**
+ * Payment method callback: submit form validation.
+ */
+function commerce_no_payment_submit_form_validate($payment_method, $pane_form, $pane_values, $order, $form_parents = array()) {
+  /* could possibly check orders for a balance of 0.00
+     but then it wouldn't be useful for testing, as it wouldnt work on other orders
+  */
+}
+
+/**
+ * Payment method callback: submit form submission.
+ */
+function commerce_no_payment_submit_form_submit($payment_method, $pane_form, $pane_values, $order, $charge) {
+  $order->data['commerce_no_payment'] = $pane_values;
+  commerce_no_payment_transaction($payment_method, $order, $charge);
+}
+
+/**
+ * Creates a payment transaction
+ *
+ * @param $payment_method
+ *   The payment method instance object used to charge this payment.
+ * @param $order
+ *   The order object the payment applies to.
+ * @param $charge
+ *   An array indicating the amount and currency code to charge.
+ */
+function commerce_no_payment_transaction($payment_method, $order, $charge) {
+  $transaction = commerce_payment_transaction_new('commerce_no_payment', $order->order_id);
+  $transaction->instance_id = $payment_method['instance_id'];
+  $transaction->amount = $charge['amount'];
+  $transaction->currency_code = $charge['currency_code'];
+  $transaction->status = COMMERCE_PAYMENT_STATUS_SUCCESS;
+
+  commerce_payment_transaction_save($transaction);
+}

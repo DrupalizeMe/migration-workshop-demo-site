@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Schedule feature.
+ */
+
+include_once 'tcdrupalschedule.features.inc';

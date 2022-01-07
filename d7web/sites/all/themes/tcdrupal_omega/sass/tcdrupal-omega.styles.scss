@@ -1,0 +1,18 @@
+/* Import Sass mixins, variables, Compass modules, etc. */
+@import "init";
+@import "compass/reset";
+
+// Be sure to enable debug mode if you want grid visualization
+// @include sgs-change('debug', true);
+
+
+//Compass variables
+$default-has-layout-approach:block;
+
+
+// Import variables, abstractions, base styles and components using globbing.
+@import "variables/**/*.scss";
+@import "abstractions/**/*.scss";
+@import "base/**/*.scss";
+@import "components/**/*.scss";
+@import "layouts/**/*.scss";

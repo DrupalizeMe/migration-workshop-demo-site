@@ -1,0 +1,6 @@
+name = "Custom code for TCDC Site"
+core = "7.x"
+description = "Glue module for TCDC"
+project = "tcdc_custom"
+version = "7.x-1.0"
+files[] = tcdc_custom.module

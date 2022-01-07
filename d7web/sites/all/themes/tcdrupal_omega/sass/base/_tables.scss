@@ -1,0 +1,84 @@
+/**
+ * $TABLES
+ */
+table {
+  width: 100%;
+  margin-bottom: $vert-spacing-unit;
+  border:1px dotted #ddd;
+}
+
+th {
+  background: $tcdc-navy;
+  color: $tcdc-white;
+  border:1px solid $grey;
+  border-bottom:none;
+
+  a,
+  a.active {
+    color: $tcdc-white;
+
+    img {
+      margin: 2px 3px;
+    }
+  }
+}
+
+thead {
+  display: none;
+  @include breakpoint($tab,true) {
+    display: table-header-group;
+  }
+}
+
+  
+td, th {
+  padding:20px 30px;
+  vertical-align: top;
+  display: block;
+
+  @include breakpoint($tab,true) {
+      display: table-cell;
+  }
+
+  a {
+    
+    &:hover {
+        color: darken($tcdc-blue,15%);
+    }
+  }
+}
+
+tr.odd {
+  background:$white;
+}
+tr.even {
+  background:$tcdc-mint;
+}
+
+caption {
+  font-weight: normal;
+  text-align: left;
+}
+
+
+
+
+
+
+/* Mobile */
+  
+  table.responsive { margin-bottom: 0; }
+  
+  .pinned { position: absolute; left: 0; top: 0; background: #fff; width: 35%; overflow: hidden; overflow-x: scroll; border-right: 1px solid #ccc; border-left: 1px solid #ccc; }
+  .pinned table { border-right: none; border-left: none; width: 100%; }
+  .pinned table th, .pinned table td { white-space: nowrap; }
+  .pinned td:last-child { border-bottom: 0; }
+  
+  div.table-wrapper { position: relative; margin-bottom: 20px; overflow: hidden; border-right: 1px solid #ccc; }
+  div.table-wrapper div.scrollable { margin-left: 35%; }
+  div.table-wrapper div.scrollable { overflow: scroll; overflow-y: hidden; }  
+  
+  table.responsive td, table.responsive th { position: relative; white-space: nowrap; overflow: hidden; }
+  table.responsive th:first-child, table.responsive td:first-child, table.responsive td:first-child, table.responsive.pinned td { display: none; }
+  
+  

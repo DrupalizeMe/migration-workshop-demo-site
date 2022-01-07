@@ -1,0 +1,69 @@
+/*FLEXsliders
+----------------------------------- */
+
+.flexslider {
+    border:none;/*reset styling*/
+    box-shadow:none;
+    margin:1em 0 0;
+    background: none;
+
+    @include breakpoint($tab,true) {
+      margin: 0;
+    }
+}
+
+.flexslider .slides img {
+   max-width:500px;
+   border:1px dotted $grey;
+   
+    @include breakpoint($smalltab, true) {
+       margin:10px auto 0;
+   }
+   @include breakpoint($tab, true) {
+    max-width: 100%;
+    margin:0;
+   } 
+}
+
+/*override default, make direction visible always*/
+.flexslider .flex-direction-nav a {
+    display: block;
+}
+
+.flex-control-nav {
+    bottom: -20px;
+    min-height: 20px;
+    position:relative;
+}
+
+.flex-caption {
+  position: absolute;
+  bottom:0px;
+  width:100%;
+  padding: 10px;
+  color:$tcdc-white;
+   a {
+    color: $tcdc-white;
+   }
+
+}
+.flex-direction-nav .flex-prev {
+    left: 10px; 
+}
+.flex-direction-nav .flex-next {
+    right: 10px;
+}
+
+.flex-direction-nav a {
+    top: 28%;
+}
+
+.flex-direction-nav li {
+    line-height: 40px;/*add to avoid cutoff*/
+}
+
+.flex-direction-nav .flex-prev, 
+.flex-direction-nav .flex-next,
+.flex-direction-nav a  {
+    @include opacity(0);
+}

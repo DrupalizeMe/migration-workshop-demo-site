@@ -1,0 +1,13 @@
+<?php
+/**
+ * @file
+ * Update hooks for tcdrupalbase.
+ */
+
+/**
+ * Disable the PHP module.
+ */
+function tcdrupalbase_update_7001(&$sandbox) {
+  $modules = array('php');
+  module_disable($modules);
+}

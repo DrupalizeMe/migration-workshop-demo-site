@@ -1,0 +1,183 @@
+<?php
+/**
+ * @file
+ * Code for the Registration feature.
+ */
+
+include_once 'tcdrupalregistration.features.inc';
+
+/**
+ * Implements hook_form_alter().
+ */
+function tcdrupalregistration_form_alter(&$form, &$form_state, $form_id) {
+  switch ($form_id) {
+    // Register page add to cart form.
+    // Prevent someone from trying to register themselves twice.
+    case 'commerce_cart_add_to_cart_form_16_24_17':
+      if (tcdrupalregistration_user_is_registered()){
+        $form['already_registered'] = array(
+          '#markup' => t('You are already registered for camp!'),
+        );
+        $form['product_id']['#access'] = FALSE;
+        $form['unavailable']['#access'] = FALSE;
+        $form['submit']['#access'] = FALSE;
+      }
+      break;
+
+    // If the order is only for a sponsorship, explain that registration will
+    // not occur here.
+    case 'commerce_checkout_form_registration':
+      // Force the registration state to 'Pending' at this point. It should not
+      // be marked 'Complete' until checkout is finished, which will fire a
+      // rule.
+      $form_state['registration']->state = 'pending';
+      // Check if there are registration products in the cart. If not, show a
+      // message explaining that the user is not purchasing a registration.
+      if (isset($form['registration_information']['no_reg_products']['#markup'])) {
+        $form['registration_information']['no_reg_products']['#markup'] = '<strong>Note:</strong> If you are purchasing a sponsorship or registration vouchers, you will not enter your camp registrations here. Instead, after we\'ve received your payment, we will email you a coupon code that you will use later to redeem your complimentary camp registrations.';
+      }
+      break;
+    case 'commerce_checkout_form_checkout':
+      $form['commerce_coupon']['coupon_code']['#description'] = t('If you have a coupon code, enter it here.');
+      break;
+    case 'commerce_checkout_form_complete':
+      // Check if the order has a Sponsor product type. If so, change the
+      // "checkout complete" message.
+      $line_items = $form_state['order']->commerce_line_items;
+      foreach ($line_items as $lang) {
+        foreach ($lang as $line_item) {
+          $line_item = entity_load_single('commerce_line_item', $line_item['line_item_id']);
+          if ($line_item->type == 'sponsor_info') {
+            // This was a sponsor order.
+            $form['checkout_completion_message']['message']['#markup'] = '<div class="checkout-completion-message"><p>Thanks for purchasing a sponsorship! Twin Cities Drupal Camp would not be possible without your generosity.</p><p>We will contact you soon with information about registration and other sponsorship goodies.</p><p>If you have questions, contact us at contact@tcdrupal.org.</p></div>';
+          }
+          elseif (strpos($line_item->line_item_label, 'VOUCHER') !== FALSE) {
+            // This was a coupon/voucher order.
+            $form['checkout_completion_message']['message']['#markup'] = '<div class="checkout-completion-message"><p>Thanks for purchasing registration vouchers! We will contact you soon with the coupon code your attendees will use to redeem their free registrations. Please give us up to a day to send you your code.</p><p>If you have questions, please contact us at contact@tcdrupal.org.</p></div>';
+          }
+        }
+      }
+
+      break;
+  }
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter() for 'registration_form'.
+ */
+function tcdrupalregistration_form_registration_form_alter(&$form, &$form_state) {
+  global $user;
+  // Make the registration form friendlier.
+  unset($form['actions']['cancel']);
+  $form['actions']['submit']['#value'] = t('Register for this free event');
+  if (user_access('administer registration')) {
+    return;
+  }
+
+  $registration_entity_id = $form_state['registration']->entity_id;
+  // IDs of events that if you are registered for you're registered for the camp.
+  $camp_event_ids = array(16,17,24);
+  // Check if this is an event that requires camp registration.
+  if (isset($form_state['registration']) && in_array($form_state['registration']->type, array('free_event', 'training'))) {
+    // Check if the user is registered for camp.
+    if ($user->uid != 0) {
+      $is_registered = db_select('registration', 'r')
+        ->fields('r', array('registration_id'))
+        ->condition('user_uid', $user->uid)
+        ->condition('entity_id', $camp_event_ids, 'IN')
+        ->execute()
+        ->fetchCol();
+    }
+    else {
+      $is_registered = FALSE;
+    }
+    // Deny registration for this event if the user is not registered for camp.
+    if (!$is_registered) {
+      foreach (element_children($form) as $key) {
+        $form[$key]['#access'] = FALSE;
+      }
+      $form['oops'] = array(
+        '#type' => 'markup',
+        '#markup' => '<p><strong>Note:</strong> You must <a href="' . url('register') . '">register for the camp</a> and be <a href="'. url('user/login') . '">logged into your account</a> in order to register for this event.</p>',
+      );
+    }
+    else {
+      // Check if the user has registered for a training.
+      $training_registration = db_select('registration', 'r')
+        ->fields('r', array('registration_id', 'entity_id'))
+        ->condition('user_uid', $user->uid)
+        ->condition('type', 'training')
+        ->execute()
+        ->fetchAssoc();
+      if (!empty($training_registration)) {
+        // If the user has registered for a different training, deny registration
+        // to this event.
+        if ($training_registration['entity_id'] != $registration_entity_id) {
+          foreach (element_children($form) as $key) {
+            $form[$key]['#access'] = FALSE;
+          }
+          $form['oops'] = array(
+            '#type' => 'markup',
+            '#markup' => '<p><strong>Note:</strong> You are already signed up for another Thursday event. If you wish to attend this event instead, you must first <a href="' . url("registration/{$training_registration['registration_id']}/delete", array('query' => drupal_get_destination())) . '">cancel your previous signup</a>.</p>',
+          );
+        }
+        // If the user has registered for this training, let the user know that.
+        // Note: this never gets executed, because the form is not displayed if
+        // the user has registered with this host entity.
+        //elseif ($training_registration['entity_id'] == $registration_entity_id) {
+        //  $form['oops'] = array(
+        //    '#type' => 'markup',
+        //    '#markup' => '<p><strong>Note:</strong> You are already signed up for this training. If you\'ve changed your mind, you may <a href="' . url("registration/{$training_registration['registration_id']}/delete", array('query' => drupal_get_destination())) . '">unregister from this training</a>.</p>',
+        //    '#prefix' => '<div class="message message-status">',
+        //    '#suffix' => '</div>',
+        //  );
+        //}
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_node_view().
+ */
+function tcdrupalregistration_node_view($node, $view_mode = 'full') {
+  if ($node->type == 'event' && in_array($node->field_event_registration[LANGUAGE_NONE][0]['registration_type'], array('free_event', 'training'))) {
+    if (!tcdrupalregistration_user_is_registered()) {
+      $node->content['field_event_registration']['#access'] = FALSE;
+      $node->content['oops'] = array(
+        '#type' => 'markup',
+        '#markup' => '<p><strong>Note:</strong> You must <a href="' . url('register') . '">register for the camp</a> and be <a href="'. url('user/login') . '">logged into your account</a> in order to register for this event.</p>',
+        '#weight' => 100,
+      );
+    }
+  }
+}
+
+/**
+ * Check if a user is registered for camp.
+ *
+ * @param $account
+ *   The account to check. Defaults to the current used if none given.
+ *
+ * @return bool
+ */
+function tcdrupalregistration_user_is_registered($account = NULL) {
+  if (!$account) {
+    $account = $GLOBALS['user'];
+  }
+
+  // IDs of events that if you are registered for you're registered for the camp.
+  $camp_event_ids = array(16, 17, 24);
+
+  if ($account->uid != 0) {
+    $is_registered = db_select('registration', 'r')
+      ->fields('r', array('registration_id'))
+      ->condition('user_uid', $account->uid)
+      ->condition('entity_id', $camp_event_ids, 'IN')
+      ->condition('state', 'complete')
+      ->execute()
+      ->fetchColumn();
+    return $is_registered;
+  }
+  return FALSE;
+}

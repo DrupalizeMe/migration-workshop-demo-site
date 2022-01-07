@@ -1,0 +1,5 @@
+name = TCDrupal Blocks
+description = Custom blocks for the Twin Cities DrupalCamp site.
+core = 7.x
+package = @TCDrupal
+dependencies[] = menu_block

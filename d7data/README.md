@@ -1,5 +1,10 @@
 This example data is taken from the 2018.tcdrupal.org website. It's been sanitized to remove sensitive personal information. And is intended only for use as example data.
 
+Files:
+
+- d7files.tar.gz contains the sites/default/files directory
+- d7site.sql.gz contains a SQL dump database snapshot
+
 The following SQL was used to sanitize the data from the original site:
 
 ```sql

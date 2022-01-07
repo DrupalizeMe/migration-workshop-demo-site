@@ -1,0 +1,863 @@
+/*BLOCKS*/
+
+//copyright 
+.block--block-1 {
+	font-family:$header;
+	@include breakpoint($tab, true) {
+		@include float-span(3,1,6);
+		text-align: left;
+  	}
+}
+
+//search block
+.block--search-form {
+}
+
+//USER MENU
+#block-system-user-menu{
+	display: none;
+}
+
+//cityscape artwork
+.block--block-3 {
+	position: absolute;
+	bottom:130px;
+	max-width:300px;
+	overflow: hidden;
+
+	@include breakpoint($tab,true) {
+		max-width: none;
+	}
+
+}
+
+//mailchimp
+.block--mailchimp-lists {
+
+	.block__content {
+		padding: 0 20px;
+	}
+
+}
+
+//key info
+.block--tcdrupalblocks-camp-info {
+	h2 {
+		margin-top: 0;
+		background:$tcdc-orange;
+	}
+}
+
+//social media icons
+.block--block-2 {
+	
+	@include breakpoint($tab, true) {
+		@include float-span(3,4,6);
+	}
+	@extend %hlist;
+
+	ul {
+		float: right;
+	}
+
+	li {
+	  	a {
+			@include font-size(14px);
+			margin-right: 10px;
+			text-indent: 0;
+			
+			.screen-reader-text {
+				  display: none;
+			}
+
+		  	&:hover {
+		  		text-decoration: none;
+		  		.screen-reader-text {
+		  			display: inline;
+		  		}
+
+		  	}
+  		}
+  	}
+
+	
+
+	li a:before {
+		@include font-size(20px);
+
+		&:hover {
+			margin-right: 0px;
+		}
+	}
+
+	li.blogs a:before {
+		@include fonticon("k")
+	}
+	li.facebook a:before {
+		@include fonticon("c")
+	}
+
+	li.twitter a:before {
+		@include fonticon("d")
+	}
+
+	li.newsletter a:before {
+		@include fonticon("l")
+	}
+
+	li.rss a:before {
+		@include fonticon("e")
+	}
+
+}
+
+//menu block
+.menu-block-wrapper  {
+	
+	ul.menu {
+		padding: 0;
+
+		li.leaf {
+		list-style-image: none;
+		list-style: none;
+		margin-bottom: 1em;
+		line-height: 1.2;
+		}
+	}
+}
+
+//Register Block
+
+.register-block {
+	
+	background:$tcdc-orange;
+	font-family:$header;
+	font-weight:700;
+
+	@include breakpoint($tab,true) {
+		position: absolute;
+		top: 75px;
+		right:10px;
+		}
+
+
+	a {
+	  color:$tcdc-white;
+	  display: block;
+	  text-transform: uppercase;
+	  width: 100%;
+	  padding: 10px;
+	  margin:0.03em 0;
+	  @include font-size(22px);
+	  text-align: center;
+	  @include breakpoint($tab,true) {
+	  		  padding: 20px 60px;
+	  		  @include font-size(28px);
+	  }
+	
+		span {
+		  color: #000;
+		  display: block;
+		  text-transform: none;
+		  @include font-size(20px);
+		}
+	}
+
+	.pointer {
+		border-color:transparent $tcdc-orange transparent transparent;
+	    border-style: solid;
+	    border-width: 15px 35px 15px 0;
+	    height: 0;
+	    left: -35px;
+	    position: absolute;
+	    top: 30px;
+	    width: 0;
+	    float: left;
+	}
+
+	.early-bird {
+		@include font-size(14px);
+		margin: 0;
+		position: relative;
+		bottom:-25px;
+		left: 0;
+	    position: absolute;
+	    right: 0;
+	    text-align: center;
+	}
+}
+
+
+
+
+//HOME PAGE HEADER (MAIN FEATURED BLOCK)
+.block--block-7{
+	@include background-image(linear-gradient(to bottom, $tcdc-green, $tcdc-green, $tcdc-blue));
+	padding-top: 60px;
+	@include breakpoint ($tab, true){
+		padding-top: 0;
+		@include background-image(linear-gradient(to bottom, $tcdc-green, $tcdc-green 80%, $tcdc-blue 130%));
+	}
+	
+	.block__content{
+		position: relative;
+		@include breakpoint ($tab, true){
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+		}
+	}
+	.info{
+		padding: 0 20px;
+		text-align: center;
+		box-sizing: border-box;
+		h1{
+			margin-top: 0;
+			@include font-size(34px);
+		}
+		h4{
+			margin-bottom: 1em;
+		}
+		p{
+			@include adjust-font-size-to(16px);
+		}
+		a.arrow{
+			position: absolute;
+			bottom: 18vw;
+			left: 50%;
+			z-index: 10;
+			display: block;
+			@include translateX(-50%);
+			@include arrowYellow;
+		}
+		@include breakpoint ($tab, true){
+			width: 50%;
+			text-align: left;
+			padding: 0 48px 0 0;
+			order: 2;
+			h1{
+				@include font-size(36px);
+			}
+			h4{
+				@include font-size(22px);
+			}
+			p{
+				font-family: $rockwell;
+				font-weight: 700;
+			}
+			a.arrow{
+				bottom: -20px;
+				right: 0;
+				left: auto;
+			}
+		}
+		@include breakpoint ($desk, true){
+			h1{
+				@include font-size(44px);
+			}
+			h4{
+				@include font-size(24px);
+			}
+		}
+		@include breakpoint (1050px, true){
+			padding: 0;
+			h1{
+				max-width: 500px;
+			}
+			p:last-of-type{
+				display: inline;
+			}
+			a.arrow{
+				position: relative;
+				display: inline-block;
+				bottom: 0;
+				right: -120px;
+			}
+		}
+		@include breakpoint ($bigdesk, true){
+			padding: 0 0 0 40px;
+			h1{
+				max-width: 800px;
+				@include font-size(72px);
+			}
+			h4{
+				@include font-size(30px);
+			}
+			p{
+				@include font-size(22px);
+			}
+			a.arrow{
+				right: -140px;
+				@include font-size(18px);
+				padding: 14px 50px;
+			}
+		}
+		@include breakpoint (2000px, true){
+			h1{
+				@include font-size(86px);
+			}
+			h4{
+				@include font-size(42px);
+			}
+			p{
+				@include font-size(28px);
+			}
+			a.arrow{
+				right: -200px;
+				@include font-size(22px);
+				padding: 25px 92px;
+			}
+		}
+	}//end info
+	.snowglobe{
+		@include inline-setup-center;
+		text-align: center;
+		img{
+			max-width: 110%;
+			display: block;
+			margin-left: 50%;
+			@include translateX(-50%);
+			html:not(.no-js) &{
+				@include opacity(0);
+			}
+		}
+		@include breakpoint ($tab, true){
+			width: 50%;
+			order: 1;
+			img{
+				max-width: 105%;
+			}
+		}@include breakpoint ($bigdesk, true){
+			margin-top: -60px;
+		}
+	}//end snowglobe
+
+}//end home page featured
+
+//HIGHLIGHTED image blocks (SESSION BLOCK, PARTY BLOCK)
+.block--block-8,.block--block-9{
+	@include blueLorangeR50;
+	position: relative;
+	&:before{
+		content: '';
+		display: block;
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+		@include blueLorangeR50;
+	}
+	h2{
+		display: none;
+		box-sizing: border-box;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		text-align: center;
+		width: 100%;
+		padding: 0 .5em .5em;
+		color: $transparent-white;
+		@include breakpoint ($middesk, true){
+			display: block;
+			@include adjust-font-size-to(42px);
+		}
+		@include breakpoint ($bigdesk, true){
+			@include adjust-font-size-to(54px);
+		}
+	}
+	img{
+		display: block;
+		width: 100%;
+	}
+	@include breakpoint ($tab, true){
+		width: 50%;
+		float: left;
+	}
+}
+
+
+//#TC DRUPAL ABOUT
+.block--block-10{
+	background: $white;
+	position: relative;
+	&:before{
+		@include blueLorangeR50;
+		position: absolute;
+		top: 0;
+		left: 0;
+		content: '';
+		display: block;
+		width: 100%;
+		height: 100%;
+		z-index: 10;
+	}
+	.block__content{
+		position: relative;
+		z-index: 20;
+		padding: 2em 20px;
+		display: flex;
+		flex-direction: column;
+		.about-img{
+			order: 2;
+			margin-top: 2em;
+			img{
+				display: block;
+				max-width: 226px;
+				@include auto;
+			}
+		}
+		.about-text{
+			order: 1;
+			h3{
+				font-size: 32px;
+				margin: 0 0 .5em;
+			}
+		}
+		@include breakpoint ($tab, true){
+			flex-direction: row;
+			align-items: center;
+			.about-img{
+				order: 1;
+				margin-top: 0;
+				width: 45%;
+			}
+			.about-text{
+				order: 2;
+				width: 55%;
+			}
+		}
+		@include breakpoint ($desk, true){
+			@include auto;
+			max-width: 1430px;
+			padding: 3em 20px 4em;
+			.about-img{
+				img{
+					max-width: 284px;
+				}
+			}
+			.about-text{
+				& > *{
+					max-width: 80%;
+				}
+			}
+		}
+		@include breakpoint ($bigdesk, true){
+			.about-text{
+				h3{
+					font-size: 36px;
+				}
+			}
+		}
+	}//end block content
+}//end about block
+
+/* TWITTER HASHTAG HOME PAGE IMG BLOCK
+--------------------------- */
+.block--block-11{
+	a{
+		display: block;
+		position: relative;
+		overflow: hidden;
+		h2{
+			position: absolute;
+			top: 50%;
+			left: 0;
+			z-index: 20;
+			@include translateY(-50%);
+			text-align: center;
+			width: 100%;
+			color: $white;
+			text-transform: uppercase;
+			font-size: 9vw;
+			html:not(.no-js) &{
+				@include opacity(0);
+			}
+			&.fadeIn{
+				@include animation('fadeInDelay 2s 1 forwards');
+			}
+		}
+
+		img{
+			display: block;
+			width: 100%;
+		}
+
+		&:before{
+			@include blueLorangeR50;
+			position: absolute;
+			top: 0;
+			left: 0;
+			content: '';
+			display: block;
+			width: 100%;
+			height: 100%;
+			z-index: 10;
+		}
+		
+		@include breakpoint ($tab, true){
+			h2{
+				font-size: 66px;
+			}
+			
+		}
+		@include breakpoint ($desk, true){
+			h2{
+				font-size: 76px;
+			}
+			img{
+				margin: 0 0 -6%;
+			}
+		}
+		@include breakpoint ($bigdesk, true){
+			h2{
+				font-size: 96px;
+			}
+			img{
+				margin: -6% 0 -19.5%;
+			}
+		}
+	}//end a
+
+}//end hastag img block 11
+
+/* ST. THOMAS MAP
+-------------------- */
+.block--block-14{
+	@include breakpoint ($tab, true){
+		float: left;
+		width: 50%;
+		padding-right: 10px;
+		box-sizing: border-box;
+	}
+	@include breakpoint ($desk, true){
+		padding-right: 15px;
+	}
+	@include breakpoint ($bigdesk, true){
+		padding-right: 20px;
+	}
+	iframe{
+		display: block;
+		height: 300px;
+		border-radius: 6px;
+		@include breakpoint ($tab, true){
+			height: 360px;
+		}
+		@include breakpoint ($desk, true){
+			height: 450px;
+		}
+		@include breakpoint ($bigdesk, true){
+			height: 560px;
+		}
+	}
+}//end st. thomas map
+
+/* CAMP LOCATION
+------------------- */
+.block--block-15{
+	box-sizing: border-box;
+	padding: 0 0 6px;
+	@include breakpoint ($tab, true){
+		padding: 0 0 10px 10px; 
+		float: left;
+		width: 50%;
+		position: relative;
+		height: 180px;
+	}
+	@include breakpoint ($desk, true){
+		height: 170px;
+		padding: 0 0 10px 15px;
+	}
+	@include breakpoint ($bigdesk, true){
+		padding: 0 0 15px 20px;
+	}
+	.block__content{
+		font-size: 0;
+		padding: 40px 20px;
+		background: $tcdc-midgreen;
+		@include breakpoint ($tab, true){
+			padding: 20px;
+			height: 100%;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			height: 100%;
+			width: 100%;
+			box-sizing: border-box;
+			border-radius: 6px;
+		}
+		.pin{
+			@include inline-setup-center;
+			width: 20%;
+			text-align: center;
+			img{
+				display: block;
+				max-width: 36px;
+				@include auto;
+			}
+			a:hover{
+				@include opacity(.7);
+			}
+		}
+		.location{
+			@include inline-setup-center;
+			@include calc(width, "100% - 20%");
+			box-sizing: border-box;
+			padding-left: 10px;
+			margin: 0;
+			li{
+				list-style: none;
+				font-size: 16px;
+				line-height: 1.35em;
+				@include breakpoint($bigdesk, true){
+					font-size: 20px;
+				}
+				a{
+					color: $black;	
+					&:hover{
+						@include opacity(.7);
+					}
+				}
+			}
+		}
+	}//end block--content
+}//end camp location
+
+/* MAILCHIMP SUBSCRIBE
+------------------------ */
+.block--block-17{
+	box-sizing: border-box;
+	padding: 0 0 6px;
+	@include breakpoint ($tab, true){
+		padding: 10px 5px 0 10px;
+		float: left;
+		width: 25%;
+		height: 180px;
+	}
+	@include breakpoint ($desk, true){
+		height: 280px;
+		padding: 10px 0 0 15px;
+	}
+	@include breakpoint ($bigdesk, true){
+		height: 390px;
+		padding: 15px 5px 0 20px; 
+	}
+	.block__content{
+		background: $tcdc-blue;
+		padding: 40px 20px;
+		text-align: center;
+		@include breakpoint ($tab, true){
+			padding: 20px;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			height: 100%;
+			width: 100%;
+			box-sizing: border-box;
+			border-radius: 6px;
+		}
+		p{
+			font-size: 16px;
+			line-height: 1;
+			margin-top: 1em;
+			@include breakpoint($bigdesk, true){
+				font-size: 20px;
+			}
+		}
+	}
+	//mailchimp input
+	#mc_embed_signup{
+		background: none;
+		#mc_embed_signup_scroll{
+			font-size: 0;
+		}
+		//email input
+		input[type="email"]{
+			margin-bottom: 1em;
+			width: 100%;
+			max-width: 220px;
+			border: none;
+			font-family: $body;
+			font-size: 13px;
+			text-align: center;
+			@include breakpoint ($smalltab, true){
+				border-top-right-radius: 0;
+				border-bottom-right-radius: 0;
+			}
+			@include breakpoint($tab, true){
+				max-width: 100%;
+				border-top-right-radius: 3px;
+				border-bottom-right-radius: 3px;
+			}
+			@include breakpoint($middesk, true){
+				@include calc(max-width, "100% - 80px");
+				border-top-right-radius: 0;
+				border-bottom-right-radius: 0;
+			}
+			@include breakpoint($bigdesk, true){
+				font-size: 16px;
+				height: 40px;
+			}
+		}//end emai;
+
+		//button
+		.clear{
+			input.button{
+				background: $tcdc-darkgreen;
+				font-family: $body;
+				width: auto;
+				font-size: 13px;
+				&:hover{
+					background: $hover-link;
+				}
+			}
+			@include breakpoint ($smalltab, true){
+				display: inline-block;
+				width: auto;
+				font-size: $base-font-size;
+				input.button{
+					border-top-left-radius: 0;
+					border-bottom-left-radius: 0;
+				}
+			}
+			@include breakpoint ($tab, true){
+				width: 100%;
+				input.button{
+					border-top-left-radius: 3px;
+					border-bottom-left-radius: 3px;
+				}
+			}
+			@include breakpoint($middesk, true){
+				width: auto;
+				input.button{
+					border-top-left-radius: 0;
+					border-bottom-left-radius: 0;
+				}
+			}
+			@include breakpoint($bigdesk, true){
+				input.button{
+					font-size: 16px;
+					height: 40px;
+				}
+			}
+		}//end clear (button)
+	}//end mailchimp signup form
+}//end maichimp
+
+/* GET SOCIAL
+------------------------ */
+.block--block-16{
+	box-sizing: border-box;
+	padding: 0 0 6px;
+	@include breakpoint ($tab, true){
+		padding: 10px 0 0 15px;
+		float: left;
+		width: 25%;	
+		height: 180px;
+	}
+	@include breakpoint ($desk, true){
+		height: 280px;
+		padding: 10px 0 0 20px;
+	}
+	@include breakpoint ($bigdesk, true){
+		height: 390px;
+		padding: 15px 0 0 25px;
+	}
+	.block__content{
+		background: $tcdc-gold;
+		padding: 40px 20px;
+		text-align: center;
+		@include breakpoint ($tab, true){
+			padding: 20px;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			height: 100%;
+			width: 100%;
+			box-sizing: border-box;
+			border-radius: 6px;
+		}
+		p{
+			font-size: 16px;
+			margin-bottom: .5em;
+			@include breakpoint ($bigdesk, true){
+				font-size: 20px;
+			}
+		}
+		ul{
+			margin: 0;
+			padding: 0;
+			font-size: 0;
+			text-align: center;
+			li{
+				@include inline-block;
+				font-size: $base-font-size;
+				vertical-align: top;
+				list-style: none;
+				height: 38px;
+				width: 38px;
+				background: $white;
+				border-radius: 2px;
+				margin: 8px;
+				a{
+					display: block;
+					height: 38px;
+					width: 38px;
+					background-image: url(../images/svg/social-icons.svg);
+					background-size: 38px 152px;
+					text-indent: -9000px;
+					&:hover{
+						@include opacity(.7);
+					}
+				}//end a
+				&.facebook a{
+					background-position: 0 0;
+				}
+				&.twitter a{
+					background-position: 0 114px;
+				}
+				&.youtube a{
+					background-position: 0 38px;
+				}
+				&.instagram a{
+					background-position: 0 76px;
+				}
+			}//end li
+		}//end ul
+	}//end block--content
+}//end get social block
+
+
+/* SITE CREDITS / POWERED BY
+------------------------------ */
+.block--block-12{
+	margin-bottom: 20px;
+	span{
+		&:not(:last-of-type){
+			&:after{
+				content: "•";
+				padding: 0 6px 0 8px;
+			}
+		}
+	}
+	@include breakpoint ($tab, true){
+		float: left;
+		width: 50%;
+		text-align: left;
+	}
+}//end site credits
+
+
+/* COPYRIGHT
+---------------- */
+.block--block-13{
+	font-size: 14px;
+	@include breakpoint ($tab, true){
+		float: right;
+		width: 50%;
+		text-align: right;
+	}
+	@include breakpoint($bigdesk, true){
+		font-size: 18px;
+	}
+}

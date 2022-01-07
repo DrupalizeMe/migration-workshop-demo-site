@@ -1,0 +1,150 @@
+<?php
+
+/**
+ * This module provides advanced stock reporting for Drupal Commerce.
+ *
+ * @file This file contains helpers for our views handlers.
+ */
+
+
+
+/**
+ * Implements hook_views_api().
+ */
+function commerce_reports_stock_views_api() {
+  return array(
+    'api' => 3,
+    'path' => drupal_get_path('module', 'commerce_reports_stock') . '/includes/views',
+  );
+}
+
+
+/**
+ * Calculate all the stock reports data (weekly sales, monthly sales, lifetime)
+ */
+function _commerce_reports_stock_calculate_dataset() {
+  $products = commerce_product_load_multiple(array(), array('status' => 1));
+
+  $start = variable_get('commerce_reports_stock_historyperiod', '3 months ago');
+  $start = strtotime($start);
+  $weekly_sales = _commerce_reports_stock_api_sales('W', $start);
+  $monthly_sales = _commerce_reports_stock_api_sales('M', $start);
+
+  $data = array();
+  $lifetimes = array();
+  $instock = array();
+  foreach ($products as $product) {
+    $sku = $product->sku;
+
+    $stock = isset($product->commerce_stock[LANGUAGE_NONE][0]['value'])
+      ? (int) $product->commerce_stock[LANGUAGE_NONE][0]['value']
+      : FALSE;
+
+    $weekly_burn = isset($weekly_sales[$sku])
+      ? _commerce_reports_stock_calculate_average_sales($weekly_sales[$sku])
+      : 0;
+    $monthly_burn = isset($monthly_sales[$sku])
+      ? _commerce_reports_stock_calculate_average_sales($monthly_sales[$sku])
+      : 0;
+
+    $lifetime = _commerce_reports_stock_calculate_lifetime($stock, $weekly_burn);
+    $lifetimes[] = $lifetime;
+    $instock[] = (bool) $stock;
+
+    $data[$sku] = array(
+      'sku' => $sku,
+      'stock' => $stock,
+      'weeklysales' => sprintf('%0.1f', $weekly_burn),
+      'monthlysales' => sprintf('%0.1f', $monthly_burn),
+      'lifetime' => $lifetime,
+    );
+  }
+
+  array_multisort($instock, SORT_NUMERIC, $lifetimes, SORT_NUMERIC, $data);
+
+  return $data;
+}
+
+
+/**
+ * Calculate the stock lifetime.
+ */
+function _commerce_reports_stock_calculate_lifetime($stock, $weekly_burn) {
+  if ($weekly_burn === 0) {
+    return 1000;
+  }
+  return (int) ($stock / ($weekly_burn / 7));
+}
+
+
+/**
+ * Calculate the average sales. This is simplistic, we could do more.
+ */
+function _commerce_reports_stock_calculate_average_sales($sales) {
+  if (empty($sales)) {
+    return 0;
+  }
+  $avg = array_sum($sales) / count($sales);
+  return $avg;
+}
+
+
+/**
+ * Get the stock enabled products
+ */
+function _commerce_reports_stock_get_stockenabled_products() {
+  $products = commerce_product_load_multiple(array(), array('status' => 1));
+
+  // Check which ones are stock enabled
+  foreach (commerce_product_types() as $type => $product_type) {
+    $instance[$type] = field_info_instance('commerce_product', 'commerce_stock', $type);
+    $enabled[$type] = (!empty($instance[$type]));
+  }
+
+  // Key by SKU
+  $productlist = array();
+  foreach ($products as $product) {
+    if ($enabled[$product->type]) {
+      $productlist[$product->sku] = $product;
+    }
+  }
+
+  return $productlist;
+}
+
+
+/**
+ * Group sales by year, month, day or week
+ */
+function _commerce_reports_stock_api_sales($interval = 'D', $start = 0) {
+  $formats = array(
+    'D' => '%Y-%m-%d',
+    'W' => '%Y-%u',
+    'M' => '%Y-%m',
+    'Y' => '%Y',
+    );
+  $format = $formats[$interval];
+
+  $query = sprintf("
+       SELECT DATE_FORMAT(FROM_UNIXTIME(o.created), '%s') AS date,
+              line_item_label AS sku,
+              SUM(quantity) AS sales
+         FROM commerce_line_item li
+    LEFT JOIN commerce_order o
+           ON li.order_id = o.order_id
+        WHERE o.status = 'completed'
+          AND li.type = 'product'
+          AND o.created >= :created
+     GROUP BY li.line_item_label, date", $format);
+
+  $res = db_query($query, array(
+      ':created' => $start,
+      ));
+
+  $data = array();
+  foreach ($res as $row) {
+    $data[$row->sku][$row->date] = (int) $row->sales;
+  }
+
+  return $data;
+}

@@ -1,0 +1,1 @@
+<p>DrupalCamp Twin Cities is for open source enthusiasts, designers, hackers, geeks, developers, UI experts, IT managers and anyone else that wants to find out more about Drupal.</p>
