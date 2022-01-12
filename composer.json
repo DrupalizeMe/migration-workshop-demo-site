@@ -16,6 +16,7 @@
     ],
     "require": {
         "composer/installers": "^1.9",
+        "cweagans/composer-patches": "^1.7",
         "drupal/address": "^1.9",
         "drupal/admin_toolbar": "^3.0",
         "drupal/backup_migrate": "^5.0",
@@ -29,9 +30,11 @@
         "drupal/honeypot": "^2.0",
         "drupal/image_resize_filter": "^1.1",
         "drupal/media_migration": "^1.0@alpha",
+        "drupal/migrate_devel": "^2.0@alpha",
         "drupal/migrate_plus": "^5.1",
         "drupal/migrate_tools": "5.x-dev@dev",
         "drupal/migrate_upgrade": "^3.2",
+        "drupal/paragraphs": "1.x-dev@dev",
         "drupal/pathauto": "^1.8",
         "drupal/pathologic": "1.0-alpha2",
         "drupal/r4032login": "^2.1",
@@ -103,6 +106,11 @@
                 "  * Remove the plugin that prints this message:",
                 "      composer remove drupal/core-project-message"
             ]
+        },
+        "patches": {
+            "drupal/paragraphs": {
+                "[drupal.org/i/3192993] d7_field_instance upgrade fails due to redundant 'field_' prefix removal on bundle": "https://www.drupal.org/files/issues/2021-01-29/paragraphs-n3192993-5.patch"
+            }
         }
     },
     "require-dev": {
