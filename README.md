@@ -10,7 +10,7 @@ Assuming you have [Docker installed](https://ddev.readthedocs.io/en/stable/users
 
 - Clone this repo
 - Run `ddev start` in the root directory of the project
-- Proceed to the Initial setup for workshop section below
+- **Proceed to the Initial setup for workshop section below**
 
 Once set up locally you can use whatever IDE or editor you want.
 
