@@ -10,7 +10,8 @@ Assuming you have [Docker installed](https://ddev.readthedocs.io/en/stable/users
 
 - Clone this repo
 - Run `ddev start` in the root directory of the project
-- **Proceed to the Initial setup for workshop section below**
+- Run the following two scripts, `./scripts/d7-data.setup.sh; ./scripts/d9-empty-install.sh`
+- **Proceed to the Initial setup for workshop section below for more info and debugging**
 
 Once set up locally you can use whatever IDE or editor you want.
 
