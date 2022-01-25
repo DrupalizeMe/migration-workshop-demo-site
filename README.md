@@ -72,9 +72,9 @@ Actual URLs will vary on GitPod.
 ./scripts/d9-empty-install.sh
 ```
 
-#### Whipe migrate_plus.* migrations from configuration
+#### Wipe migrate_plus.* migrations from configuration
 
-Useful if you want to whipe the results of `drush migrate:upgrade --configure-only` and try again.
+Useful if you want to wipe the results of `drush migrate:upgrade --configure-only` and try again.
 
 ```shell
 ./scripts/reset.sh
