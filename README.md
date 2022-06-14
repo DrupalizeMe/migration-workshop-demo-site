@@ -27,21 +27,33 @@ Once the workspace has started you'll need to run the setup script to launch DDE
 
 Run `./.gitpod/ddev-in-gitpod-setup.sh` from the VS Code terminal in the GitPod workspace.
 
-**Tip**: Sometimes when restarting the project you may need to run the above script again. For example if the host IP address changes. If DDEV starts, but you can't acces your Drupal site in the preview browser try running the script again.
+**Tip**: Sometimes when restarting the project you may need to run the above script again. For example if the host IP address changes. If DDEV starts, but you can't access your Drupal site in the preview browser try running the script again.
 
 ## Initial setup for workshop
 
 Once DDEV is up and running on GitPod there are a few additional things you'll need to do to prepare for the workshop:
 
-**Copy paste and execute**: `./scripts/d7-data.setup.sh; ./scripts/d9-empty-install.sh`
+**Copy, paste, and execute the following command in the GitPod workspace terminal**: `./scripts/d7-data.setup.sh; ./scripts/d9-empty-install.sh`
 
-Or do it manually:
+This will run two scripts that install Drupal 9, and Drupal 7 with some dummy data.
+
+<details>
+<summary>Or do it manually:</summary>
 
 - Install Drupal and dependencies `ddev composer install`
 - Import the D7 source site database into ddev with `ddev import-db --src=d7data/d7site.sql.gz --target-db=d7`
 - Unzip the D7 source site codebase with `ddev exec tar xzf d7data/d7web.tar.gz --directory=/var/www/html`
 - Unzip the D7 source site files archive `ddev exec tar xvzf d7data/d7files.tar.gz --directory=d7data/`
 - Install Drupal
+</details>
+
+The username/password for the Drupal 9 site should appear in the terminal output. Or you can use drush to obtain a one time login link:
+
+```shell
+ddev drush uli
+```
+
+The username/password for the Drupal 7 site is admin/admin.
 
 For local development the two sites are available at:
 
