@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c7b7f13e3fc104bf25b9944be09332de",
+    "content-hash": "377ebd505fde6f71e72d10838ea91643",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3133,35 +3133,44 @@
         },
         {
             "name": "drupal/media_migration",
-            "version": "1.0.0-alpha8",
+            "version": "1.0.0-alpha14",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/media_migration.git",
-                "reference": "8.x-1.0-alpha8"
+                "reference": "8.x-1.0-alpha14"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/media_migration-8.x-1.0-alpha8.zip",
-                "reference": "8.x-1.0-alpha8",
-                "shasum": "f772fc6ded9dc292f7a9237b6d610f54763a9851"
+                "url": "https://ftp.drupal.org/files/projects/media_migration-8.x-1.0-alpha14.zip",
+                "reference": "8.x-1.0-alpha14",
+                "shasum": "d0c3617d4198b915a2eec116a5d8ca0873e03067"
             },
             "require": {
-                "drupal/core": "^8 || ^9",
+                "drupal/core": "^8.8 || ^9",
+                "drupal/migmag": "^1.5",
+                "drupal/migmag_process": "*",
                 "drupal/migrate_plus": "^4.2 || ^5",
-                "drupal/migrate_tools": "^4.1 || ^5"
+                "drupal/smart_sql_idmap": "^1.0-beta1"
             },
             "require-dev": {
-                "drupal/entity_embed": "^1"
+                "drupal/entity_embed": "^1",
+                "drupal/linkit": "^5.0.0-beta11 || ^6.0.0-beta2",
+                "drupal/migrate_tools": "^4.1 || ^5",
+                "drupal/migrate_upgrade": "^3",
+                "drush/drush": "^9 || ^10"
             },
             "suggest": {
                 "drupal/entity_embed": "Allows entities to be embedded using a text editor.",
-                "drupal/file_entity": "Extends Drupal file entities to be fieldable and viewable."
+                "drupal/file_entity": "Extends Drupal file entities to be fieldable and viewable.",
+                "drupal/linkit": "Provides an easy interface for internal and external linking with wysiwyg editors.",
+                "drupal/linkit_media_library": "Create links from media library.",
+                "drupal/media_migration_tools": "Media Migration supporting module for Migrate Tools"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "8.x-1.0-alpha8",
-                    "datestamp": "1600076636",
+                    "version": "8.x-1.0-alpha14",
+                    "datestamp": "1652782889",
                     "security-coverage": {
                         "status": "not-covered",
                         "message": "Alpha releases are not covered by Drupal security advisories."
@@ -3194,6 +3203,67 @@
             "support": {
                 "source": "https://git.drupalcode.org/project/media_migration",
                 "issues": "https://www.drupal.org/project/issues/media_migration"
+            }
+        },
+        {
+            "name": "drupal/migmag",
+            "version": "1.8.1",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/migmag.git",
+                "reference": "1.8.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/migmag-1.8.1.zip",
+                "reference": "1.8.1",
+                "shasum": "d944bb896ff84d3df5d5177febacd5b3559955b1"
+            },
+            "require": {
+                "drupal/core": "^8.9 || ^9 || ^10"
+            },
+            "replace": {
+                "drupal/migmag_callback_upgrade": "self.version",
+                "drupal/migmag_menu_link_migrate": "self.version",
+                "drupal/migmag_process": "self.version",
+                "drupal/migmag_process_lookup_replace": "self.version",
+                "drupal/migmag_rollbackable": "self.version",
+                "drupal/migmag_rollbackable_replace": "self.version"
+            },
+            "require-dev": {
+                "drupal/eme": "^1@alpha",
+                "drupal/migmag_process": "*",
+                "drupal/migmag_rollbackable": "*",
+                "drupal/smart_sql_idmap": "^1.1@beta",
+                "drupal/tecla": "^1@RC",
+                "drush/drush": "^10 || ^11"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "1.8.1",
+                    "datestamp": "1659090450",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "huzooka",
+                    "homepage": "https://www.drupal.org/user/281301"
+                }
+            ],
+            "description": "Toolset and utilities for Drupal migrations.",
+            "homepage": "https://www.drupal.org/project/migmag",
+            "support": {
+                "source": "https://git.drupalcode.org/project/migmag",
+                "issues": "https://www.drupal.org/project/issues/migmag"
             }
         },
         {
@@ -3320,40 +3390,44 @@
         },
         {
             "name": "drupal/migrate_tools",
-            "version": "dev-5.x",
+            "version": "6.0.0",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/migrate_tools.git",
-                "reference": "56d82b4fc111dd26f2c3a1e53c06015eb854df20"
+                "reference": "6.0.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/migrate_tools-6.0.0.zip",
+                "reference": "6.0.0",
+                "shasum": "bec5a0e4fbb6ec0face6780c2ab98ffe6096188b"
             },
             "require": {
-                "drupal/core": "^8.8 | ^9",
-                "drupal/migrate_plus": "^5",
-                "php": ">=7.1"
+                "drupal/core": ">=9.1",
+                "php": ">=7.4"
             },
             "require-dev": {
-                "drupal/migrate_source_csv": "^3.0",
-                "drush/drush": "^10"
+                "drupal/migrate_plus": ">=5",
+                "drupal/migrate_source_csv": ">=3",
+                "drush/drush": ">=11"
             },
             "suggest": {
-                "drush/drush": "^9 || ^10"
+                "drupal/migrate_plus": ">=5",
+                "drush/drush": ">=11"
             },
             "type": "drupal-module",
             "extra": {
-                "branch-alias": {
-                    "dev-5.x": "5.x-dev"
-                },
                 "drupal": {
-                    "version": "8.x-5.0+13-dev",
-                    "datestamp": "1618603463",
+                    "version": "6.0.0",
+                    "datestamp": "1651240616",
                     "security-coverage": {
-                        "status": "not-covered",
-                        "message": "Dev releases are not covered by Drupal security advisories."
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
                     }
                 },
                 "drush": {
                     "services": {
-                        "drush.services.yml": "^9 || ^10"
+                        "drush.services.yml": ">=9"
                     }
                 }
             },
@@ -3811,6 +3885,55 @@
             "support": {
                 "source": "https://git.drupal.org/project/recaptcha.git",
                 "issues": "https://www.drupal.org/project/issues/recaptcha"
+            }
+        },
+        {
+            "name": "drupal/smart_sql_idmap",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/smart_sql_idmap.git",
+                "reference": "1.1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/smart_sql_idmap-1.1.0.zip",
+                "reference": "1.1.0",
+                "shasum": "f5e0602fca9a49a2ed3e2901046dc58fbe678926"
+            },
+            "require": {
+                "drupal/core": "^8.8 || ^9 || ^10"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "drupal": {
+                    "version": "1.1.0",
+                    "datestamp": "1658916952",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "huzooka",
+                    "homepage": "https://www.drupal.org/user/281301"
+                }
+            ],
+            "description": "A SQL id map for migrations with long plugin IDs",
+            "homepage": "https://www.drupal.org/project/smart_sql_idmap",
+            "keywords": [
+                "Drupal",
+                "Migration"
+            ],
+            "support": {
+                "source": "https://git.drupalcode.org/project/smart_sql_idmap",
+                "issues": "https://www.drupal.org/project/issues/smart_sql_idmap"
             }
         },
         {
@@ -8780,7 +8903,6 @@
     "stability-flags": {
         "drupal/media_migration": 15,
         "drupal/migrate_devel": 15,
-        "drupal/migrate_tools": 20,
         "drupal/pathologic": 15
     },
     "prefer-stable": true,
