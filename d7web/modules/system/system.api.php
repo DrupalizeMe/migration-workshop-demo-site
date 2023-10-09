@@ -749,26 +749,6 @@ function hook_js_alter(&$javascript) {
 }
 
 /**
- * Perform necessary alterations to the concatenated JavaScript before it is
- * presented on the page.
- *
- * @param $contents
- *   A string of the concatenated JavaScript.
- *
- * @see drupal_build_js_cache()
- */
-function hook_js_cache_alter(&$contents) {
-  $header = <<<HEADER
-/**
- * Powered by Pressflow
- * http://pressflow.org
- */
-HEADER;
-
-  $contents = $header . "\n" . $contents;
-}
-
-/**
  * Registers JavaScript/CSS libraries associated with a module.
  *
  * Modules implementing this return an array of arrays. The key to each
@@ -3195,7 +3175,7 @@ function hook_requirements($phase) {
       );
     }
 
-    $requirements['cron']['description'] .= ' ' . $t('You can <a href="@cron">run cron manually</a>.', array('@cron' => url('admin/reports/status/run-cron')));
+    $requirements['cron']['description'] .= ' ' . $t('You can <a href="@cron">run cron manually</a>.', array('@cron' => url('admin/reports/status/run-cron', array('query' => array('token' => drupal_get_token('run-cron'))))));
 
     $requirements['cron']['title'] = $t('Cron maintenance tasks');
   }
@@ -4835,6 +4815,33 @@ function hook_filetransfer_info_alter(&$filetransfer_info) {
     // Make sure the SSH option is listed first.
     $filetransfer_info['ssh']['weight'] = -10;
   }
+}
+
+/**
+ * Alter core e-mail validation.
+ *
+ * This hook is called immediately after core e-mail validation takes place and
+ * gives other modules a chance to override it. This is useful in cases where
+ * you want to have stricter or looser validation standards than that provided
+ * by Drupal core.
+ *
+ * @param $valid
+ *   Boolean value referencing the validation result.
+ *
+ * @param $mail
+ *   E-mail address being validated.
+ *
+ * @see valid_email_address()
+ */
+function hook_valid_email_address_alter(&$valid, $mail) {
+  if (preg_match("/^([a-zA-Z0-9])+([a-zA-Z0-9\._-])*@([a-zA-Z0-9_-])+([a-zA-Z0-9\._-]+)+$/", $mail)) {
+    list($username, $domain) = explode('@', $mail);
+    // Check DNS records.
+    if (checkdnsrr($domain, 'MX')) {
+      $valid = TRUE;
+    }
+  }
+  $valid = FALSE;
 }
 
 /**

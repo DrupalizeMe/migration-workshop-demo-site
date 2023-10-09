@@ -323,6 +323,10 @@ function system_element_info() {
     '#group_callback' => 'drupal_group_css',
     '#aggregate_callback' => 'drupal_aggregate_css',
   );
+  $types['scripts'] = array(
+    '#items' => array(),
+    '#pre_render' => array('drupal_pre_render_scripts'),
+  );
 
   // Input elements.
   $types['submit'] = array(
@@ -331,7 +335,7 @@ function system_element_info() {
     '#button_type' => 'submit',
     '#executes_submit_callback' => TRUE,
     '#limit_validation_errors' => FALSE,
-    '#process' => array('ajax_process_form'),
+    '#process' => array('ajax_process_form', 'form_process_button'),
     '#theme_wrappers' => array('button'),
   );
   $types['button'] = array(
@@ -340,7 +344,7 @@ function system_element_info() {
     '#button_type' => 'submit',
     '#executes_submit_callback' => FALSE,
     '#limit_validation_errors' => FALSE,
-    '#process' => array('ajax_process_form'),
+    '#process' => array('ajax_process_form', 'form_process_button'),
     '#theme_wrappers' => array('button'),
   );
   $types['image_button'] = array(
@@ -348,7 +352,7 @@ function system_element_info() {
     '#button_type' => 'submit',
     '#executes_submit_callback' => TRUE,
     '#limit_validation_errors' => FALSE,
-    '#process' => array('ajax_process_form'),
+    '#process' => array('ajax_process_form', 'form_process_button'),
     '#return_value' => TRUE,
     '#has_garbage_value' => TRUE,
     '#src' => NULL,
@@ -1135,6 +1139,15 @@ function system_library() {
     ),
   );
 
+  // Drupal's form single submit library.
+  $libraries['drupal.form-single-submit'] = array(
+    'title' => 'Drupal form single submit library',
+    'version' => VERSION,
+    'js' => array(
+      'misc/form-single-submit.js' => array('group' => JS_LIBRARY, 'weight' => 1),
+    ),
+  );
+
   // Drupal's states library.
   $libraries['drupal.states'] = array(
     'title' => 'Drupal states',
@@ -1182,9 +1195,10 @@ function system_library() {
     'version' => '1.4.4',
     'js' => array(
       'misc/jquery.js' => array('group' => JS_LIBRARY, 'weight' => -20),
-      // This includes a security fix, so assign a weight that makes this load
+      // These include security fixes, so assign a weight that makes them load
       // as soon after jquery.js is loaded as possible.
       'misc/jquery-extend-3.4.0.js' => array('group' => JS_LIBRARY, 'weight' => -19),
+      'misc/jquery-html-prefilter-3.5.0-backport.js' => array('group' => JS_LIBRARY, 'weight' => -19),
     ),
   );
 
@@ -1323,6 +1337,7 @@ function system_library() {
     'version' => '1.8.7',
     'js' => array(
       'misc/ui/jquery.ui.datepicker.min.js' => array(),
+      'misc/ui/jquery.ui.datepicker-1.13.0-backport.js' => array(),
     ),
     'css' => array(
       'misc/ui/jquery.ui.datepicker.css' => array(),
@@ -1336,7 +1351,8 @@ function system_library() {
     'website' => 'http://jqueryui.com/demos/dialog/',
     'version' => '1.8.7',
     'js' => array(
-      'misc/ui/jquery.ui.dialog.min.js' => array(),
+      'misc/ui/jquery.ui.dialog.min.js' =>  array(),
+      'misc/ui/jquery.ui.dialog-1.13.0-backport.js' => array(),
     ),
     'css' => array(
       'misc/ui/jquery.ui.dialog.css' => array(),
@@ -1392,6 +1408,7 @@ function system_library() {
     'version' => '1.8.7',
     'js' => array(
       'misc/ui/jquery.ui.position.min.js' => array(),
+      'misc/ui/jquery.ui.position-1.13.0-backport.js' => array(),
     ),
   );
   $libraries['ui.progressbar'] = array(
@@ -4079,4 +4096,41 @@ function system_admin_paths() {
     'admin/reports/status/php' => FALSE,
   );
   return $paths;
+}
+
+/**
+ * Implements hook_file_download().
+ */
+function system_file_download($uri) {
+  $scheme = file_uri_scheme($uri);
+  if (file_stream_wrapper_valid_scheme($scheme)) {
+    $target = file_uri_target($uri);
+    if ($target !== FALSE) {
+      if (!in_array($scheme, variable_get('file_sa_core_2023_005_schemes', array()))) {
+        if (DIRECTORY_SEPARATOR !== '/') {
+          $class = file_stream_wrapper_get_class($scheme);
+          if (is_subclass_of($class, 'DrupalLocalStreamWrapper')) {
+            $target = str_replace(DIRECTORY_SEPARATOR, '/', $target);
+          }
+        }
+        $parts = explode('/', $target);
+        if (array_intersect($parts, array('.', '..'))) {
+          return -1;
+        }
+      }
+    }
+  }
+
+  $core_schemes = array('public', 'private', 'temporary');
+  $additional_public_schemes = array_diff(variable_get('file_additional_public_schemes', array()), $core_schemes);
+  if ($additional_public_schemes) {
+    $scheme = file_uri_scheme($uri);
+    if (in_array($scheme, $additional_public_schemes, TRUE)) {
+      return array(
+        // Returning any header grants access, and setting the 'Cache-Control'
+        // header is appropriate for public files.
+        'Cache-Control' => 'public',
+      );
+    }
+  }
 }
