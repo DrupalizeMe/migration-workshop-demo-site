@@ -790,3 +790,10 @@ $databases['migrate']['default'] = array (
   'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
   'driver' => 'mysql',
 );
+
+// The directory specified here must contain the directory specified in the
+// "file_public_path" Drupal 7 variable. Usually: "sites/default/files".
+$settings['migrate_source_base_path'] = '/var/www/html/d7web/';
+// The directory specified here must contain the directory specified in the
+// "file_private_path" Drupal 7 variable. Usually outside the web root.
+//$settings['migrate_source_private_file_path'] = '/somewhere/private';
