@@ -1,0 +1,8 @@
+.upgrade-status-table th:nth-child(1) {
+  width: 40%;
+}
+
+.upgrade-status-table th:nth-child(2),
+.upgrade-status-table th:nth-child(3) {
+  width: 20%;
+}

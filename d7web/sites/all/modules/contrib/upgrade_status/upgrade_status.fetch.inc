@@ -123,8 +123,7 @@ function _upgrade_status_process_fetch_task($project) {
   // US: No site key to avoid hi-jacking module usage statistics.
 #  $site_key = drupal_hmac_base64($base_url, drupal_get_private_key());
   // US: However, we want to check against a future core version.
-  $version = variable_get('upgrade_status_core_version', UPGRADE_STATUS_CORE_VERSION);
-  $url = _upgrade_status_build_fetch_url($project, $version);
+  $url = _upgrade_status_build_fetch_url($project);
   $fetch_url_base = _update_get_fetch_url_base($project);
   $project_name = $project['name'];
 
@@ -261,15 +260,8 @@ function _upgrade_status_create_fetch_task($project) {
 /**
  * Generates the URL to fetch information about project updates.
  *
- * This figures out the right URL to use, based on the project's .info file and
- * the global defaults. Appends optional query arguments when the site is
- * configured to report usage stats.
- *
  * @param $project
  *   The array of project information from update_get_projects().
- * // US: Replace $site_key with $version.
- * @param $version
- *   The target version of Drupal core you wish to query.
  *
  * @return
  *   The URL for fetching information about updates to the specified project.
@@ -278,10 +270,10 @@ function _upgrade_status_create_fetch_task($project) {
  * @see _update_process_fetch_task()
  * @see update_get_projects()
  */
-function _upgrade_status_build_fetch_url($project, $version) {
+function _upgrade_status_build_fetch_url($project) {
   $name = $project['name'];
   $url = _update_get_fetch_url_base($project);
-  $url .= '/' . $name . '/' . $version;
+  $url .= '/' . $name . '/current';
 
   // US: Remove all handling around $site_key; we don't want to pollute project
   // usage statistics, so we don't use any of it.
