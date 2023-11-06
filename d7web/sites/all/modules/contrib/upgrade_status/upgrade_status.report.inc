@@ -23,10 +23,7 @@ function upgrade_status_status() {
     // US: Inlined _update_no_data().
     // @todo: File an upstream patch for that.
     $destination = drupal_get_destination();
-    $data = t('No upgrade information available. <a href="@run_cron">Run cron</a> or <a href="@check_manually">check manually</a>.', array(
-      '@run_cron' => url('admin/reports/status/run-cron', array('query' => $destination)),
-      '@check_manually' => url('admin/reports/updates/upgrade/check', array('query' => $destination)),
-    ));
+    $data = t('No upgrade information available.');
     return theme('upgrade_status_report', array('data' => $data));
   }
 }
@@ -43,23 +40,20 @@ function upgrade_status_status() {
 function theme_upgrade_status_report($variables) {
   $data = $variables['data'];
 
-  $last = variable_get('upgrade_status_last_check', 0);
-  $output = theme('upgrade_status_last_check', array('last' => $last));
-
   // US: Load Update module's data as a fallback in case there is no release info
   // for a project (so we can link to the project).
   $current_data = update_get_available(TRUE);
 
   // US: Add the core version selector form.
   $form = drupal_get_form('upgrade_status_core_version_form');
-  $output .= drupal_render($form);
+  $output = drupal_render($form);
 
   if (!is_array($data)) {
     $output .= '<p>' . $data . '</p>';
     return $output;
   }
 
-  $header = array();
+  $header = array(t('Project'), t('Current version'), t('Latest upgrade available'));
   $rows = array();
 
   // US: We don't do anything with notifications in this module.
@@ -78,10 +72,13 @@ function theme_upgrade_status_report($variables) {
   }
 
   foreach ($data as $project) {
-    // Skip future version replacements and this module, which would cause
-    // confusion if it showed up.
-    if ((isset($project['api_version']) && (strtok($project['api_version'], ".") > strtok(VERSION, "."))) ||
-       ($project['name'] == 'upgrade_status')) {
+    // Handle projects with no includes element.
+    if (empty($project['includes'])){
+      $project['includes'] = array();
+    }
+
+    // Skip this module.
+    if ($project['name'] == 'upgrade_status') {
       continue;
     }
 
@@ -94,191 +91,81 @@ function theme_upgrade_status_report($variables) {
       // info in $data.
       case UPGRADE_STATUS_OBSOLETE:
         $class = 'ok';
-        $icon = theme('image', array('path' => 'misc/watchdog-ok.png', 'width' => 18, 'height' => 18, 'alt' => t('ok'), 'title' => t('ok')));
         break;
       case UPDATE_UNKNOWN:
       case UPDATE_FETCH_PENDING:
       case UPDATE_NOT_FETCHED:
         $class = 'unknown';
-        // US: Unknown means not ported; thus, use an error icon.
-#        $icon = theme('image', array('path' => 'misc/watchdog-warning.png', 'width' => 18, 'height' => 18, 'alt' => t('warning'), 'title' => t('warning')));
-        $icon = theme('image', array('path' => 'misc/watchdog-error.png', 'width' => 18, 'height' => 18, 'alt' => t('error'), 'title' => t('error')));
         break;
       // US: Not used/not possible here.
       case UPDATE_NOT_SECURE:
       case UPDATE_REVOKED:
       case UPDATE_NOT_SUPPORTED:
+      case UPGRADE_STATUS_UNAVAILABLE:
         $class = 'error';
-        $icon = theme('image', array('path' => 'misc/watchdog-error.png', 'width' => 18, 'height' => 18, 'alt' => t('error'), 'title' => t('error')));
         break;
       // US: It doesn't make sense to output a whole page of warning symbols,
       // so we just colorize as a warning without the icon. This allows us to
       // warn about projects moved into core and other important info.
       case UPGRADE_STATUS_DEVELOPMENT:
         $class = 'warning';
-        $icon = '';
         break;
       case UPGRADE_STATUS_OBSOLETE:
-        $row .= '<span class="current">'. t('Made obsolete') .'</span>';
         break;
 
       case UPDATE_NOT_CHECKED:
       case UPDATE_NOT_CURRENT:
       default:
         $class = 'warning';
-        $icon = theme('image', array('path' => 'misc/watchdog-warning.png', 'width' => 18, 'height' => 18, 'alt' => t('warning'), 'title' => t('warning')));
         break;
     }
-    // US: Special handling for project moved into core.
-    if (empty($project['in_core_complete'])) {
-      $icon = theme('image', array('path' => 'misc/watchdog-warning.png', 'width' => 18, 'height' => 18, 'alt' => t('warning'), 'title' => t('warning')));
-    }
 
-    $row = '<div class="version-status">';
-    $status_label = theme('upgrade_status_status_label', array('status' => $project['status'], 'project' => $project));
-    $row .= !empty($status_label) ? $status_label : check_plain($project['reason']);
-    $row .= '<span class="icon">' . $icon . '</span>';
-    $row .= "</div>\n";
+    $row = [];
 
-    $row .= '<div class="project">';
+    // PROJECT NAME ------------------------------------------------------------
+    $project_label = '<strong>';
     if (isset($project['title'])) {
       if (isset($project['link'])) {
-        $row .= l($project['title'], $project['link']);
+        $project_label .= l($project['title'], $project['link']);
       }
       else {
-        $row .= check_plain($project['title']);
+        $project_label .= check_plain($project['title']);
       }
     }
     // US: Couldn't find this project's data for the next version of Drupal core.
     // Let's try the current one instead.
     elseif (isset($current_data[$project['name']]) && isset($current_data[$project['name']]['title'])) {
       if (isset($current_data[$project['name']]['link'])) {
-        $row .= l($current_data[$project['name']]['title'], $current_data[$project['name']]['link']);
+        $project_label .= l($current_data[$project['name']]['title'], $current_data[$project['name']]['link']);
       }
       else {
-        $row .= check_plain($current_data[$project['name']]['title']);
+        $project_label .= check_plain($current_data[$project['name']]['title']);
       }
     }
     // Otherwise, just print the name.
     else {
-      $row .= check_plain($project['name']);
+      $project_label .= check_plain($project['name']);
     }
-    $row .= ' ' . check_plain($project['existing_version']);
-    if ($project['install_type'] == 'dev' && !empty($project['datestamp'])) {
-      $row .= ' <span class="version-date">(' . format_date($project['datestamp'], 'custom', 'Y-M-d') . ')</span>';
-    }
-    $row .= "</div>\n";
+    $project_label .= '</strong>';
 
-    // US: Special handling for projects moved into core.
-    if (!empty($project['in_core_note'])) {
-      $row .= "<div class=\"core-notice\">\n";
-      $row .= '<p>'. t('In Drupal core since @version', array('@version' => $project['in_core_since'])) .'</p>';
-      $row .= '<p>'. $project['in_core_note'] .'</p>';
-      $row .= '</div>';
-    }
-
-    $versions_inner = '';
-    $security_class = array();
-    $version_class = array();
-    if (isset($project['recommended']) && (empty($project['in_core_complete']))) {
-      if ($project['status'] != UPDATE_CURRENT || $project['existing_version'] !== $project['recommended']) {
-
-        // First, figure out what to recommend.
-        // If there's only 1 security update and it has the same version we're
-        // recommending, give it the same CSS class as if it was recommended,
-        // but don't print out a separate "Recommended" line for this project.
-        if (!empty($project['security updates']) && count($project['security updates']) == 1 && $project['security updates'][0]['version'] === $project['recommended']) {
-          $security_class[] = 'version-recommended';
-          $security_class[] = 'version-recommended-strong';
-        }
-        else {
-          $version_class[] = 'version-recommended';
-          // Apply an extra class if we're displaying both a recommended
-          // version and anything else for an extra visual hint.
-          if ($project['recommended'] !== $project['latest_version']
-              || !empty($project['also'])
-              || ($project['install_type'] == 'dev'
-                  && isset($project['dev_version'])
-                  && $project['latest_version'] !== $project['dev_version']
-                  && $project['recommended'] !== $project['dev_version'])
-              || (isset($project['security updates'][0])
-                  && $project['recommended'] !== $project['security updates'][0])
-          ) {
-            $version_class[] = 'version-recommended-strong';
-          }
-          $versions_inner .= theme('update_version', array('version' => $project['releases'][$project['recommended']], 'tag' => t('Recommended version:'), 'class' => $version_class));
-        }
-
-        // Now, print any security updates.
-        if (!empty($project['security updates'])) {
-          $security_class[] = 'version-security';
-          foreach ($project['security updates'] as $security_update) {
-            $versions_inner .= theme('update_version', array('version' => $security_update, 'tag' => t('Security update:'), 'class' => $security_class));
-          }
-        }
-      }
-
-      if ($project['recommended'] !== $project['latest_version']) {
-        $versions_inner .= theme('update_version', array('version' => $project['releases'][$project['latest_version']], 'tag' => t('Latest version:'), 'class' => array('version-latest')));
-      }
-      if ($project['install_type'] == 'dev'
-          && $project['status'] != UPDATE_CURRENT
-          && isset($project['dev_version'])
-          && $project['recommended'] !== $project['dev_version']) {
-        $versions_inner .= theme('update_version', array('version' => $project['releases'][$project['dev_version']], 'tag' => t('Development version:'), 'class' => array('version-latest')));
-      }
-    }
-
-    if (isset($project['also'])) {
-      foreach ($project['also'] as $also) {
-        $versions_inner .= theme('update_version', array('version' => $project['releases'][$also], 'tag' => t('Also available:'), 'class' => array('version-also-available')));
-      }
-    }
-
-    if (!empty($versions_inner)) {
-      $row .= "<div class=\"versions\">\n" . $versions_inner . "</div>\n";
-    }
-    $row .= "<div class=\"info\">\n";
-    if (!empty($project['extra'])) {
-      $row .= '<div class="extra">' . "\n";
-      foreach ($project['extra'] as $key => $value) {
-        $row .= '<div class="' . implode(' ', $value['class']) . '">';
-        $row .= check_plain($value['label']) . ': ';
-        $row .= drupal_placeholder($value['data']);
-        $row .= "</div>\n";
-      }
-      $row .= "</div>\n";  // extra div.
-    }
-
-    if (isset($project['replaced_by'])) {
-      $row .= '<div class="includes">';
-      $replacements = array();
-      foreach ($project['replaced_by'] as $replacement) {
-        $replacements[] = t('!name @version', array('!name' => l($data[$replacement['name']]['title'], $data[$replacement['name']]['link']), '@version' => $data[$replacement['name']]['recommended']));
-      }
-      $replaced = implode(', ', $replacements);
-      $row .= t('Replaced by: !replaced', array('!replaced' => $replaced));
-      $row .= "</div>\n";
-    }
-
+    $project_label .= '<div class="includes">';
     if (!empty($project['disabled'])) {
       sort($project['disabled']);
       // Make sure we start with a clean slate for each project in the report.
       $includes_items = array();
-      $row .= t('Includes:');
+      $project_label .= t('Includes:');
       $includes_items[] = t('Enabled: %includes', array('%includes' => implode(', ', $project['includes'])));
       $includes_items[] = t('Disabled: %disabled', array('%disabled' => implode(', ', $project['disabled'])));
-      $row .= theme('item_list', array('items' => $includes_items));
+      $project_label .= theme('item_list', array('items' => $includes_items));
     }
     else {
-      $row .= '<div class="includes">';
       sort($project['includes']);
-      $row .= t('Includes: %includes', array('%includes' => implode(', ', $project['includes'])));
+      $project_label .= t('Includes: %includes', array('%includes' => implode(', ', $project['includes'])));
     }
-    $row .= "</div>\n";
+    $project_label .= "</div>\n";
 
     if (!empty($project['base_themes'])) {
-      $row .= '<div class="basethemes">';
+      $project_label .= '<div class="basethemes">';
       asort($project['base_themes']);
       $base_themes = array();
       foreach ($project['base_themes'] as $base_key => $base_theme) {
@@ -293,18 +180,44 @@ function theme_upgrade_status_report($variables) {
             $base_themes[] = drupal_placeholder($base_theme);
         }
       }
-      $row .= t('Depends on: !basethemes', array('!basethemes' => implode(', ', $base_themes)));
-      $row .= "</div>\n";
+      $project_label .= t('Depends on: !basethemes', array('!basethemes' => implode(', ', $base_themes)));
+      $project_label .= "</div>\n";
     }
-
     if (!empty($project['sub_themes'])) {
-      $row .= '<div class="subthemes">';
+      $project_label .= '<div class="subthemes">';
       sort($project['sub_themes']);
-      $row .= t('Required by: %subthemes', array('%subthemes' => implode(', ', $project['sub_themes'])));
-      $row .= "</div>\n";
+      $project_label .= t('Required by: %subthemes', array('%subthemes' => implode(', ', $project['sub_themes'])));
+      $project_label .= "</div>\n";
     }
+    $row[] = $project_label;
 
-    $row .= "</div>\n"; // info div.
+    // EXISTING VERSION --------------------------------------------------------
+    $existing_version = check_plain($project['existing_version']);
+    if ($project['install_type'] == 'dev' && !empty($project['datestamp'])) {
+      $existing_version .= ' (' . format_date($project['datestamp'], 'custom', 'Y-M-d') . ')';
+    }
+    $row[] = $existing_version;
+
+    // UPGRADE STATUS ----------------------------------------------------------
+    $upgrade_status = !empty($project['reason']) ? $project['reason'] : t('Unknown');
+    if (!empty($project['in_core_since'])) {
+      $upgrade_status = '<p>'. t('In Drupal core since @version', array('@version' => $project['in_core_since'])) .'</p>';
+      if (!empty($project['in_core_note'])) {
+        $upgrade_status .= '<p>'. $project['in_core_note'] .'</p>';
+      }
+    }
+    elseif (isset($project['replaced_by'])) {
+      $replacements = array();
+      foreach ($project['replaced_by'] as $replacement) {
+        $replacements[] = t('!name @version', array('!name' => l($data[$replacement['name']]['title'], $data[$replacement['name']]['link']), '@version' => $data[$replacement['name']]['recommended']));
+      }
+      $replaced = implode(', ', $replacements);
+      $upgrade_status = t('Replaced by: !replaced', array('!replaced' => $replaced));
+    }
+    elseif (isset($project['recommended'])) {
+      $upgrade_status = $project['recommended'];
+    }
+    $row[] = $upgrade_status;
 
     if (!isset($rows[$project['project_type']])) {
       $rows[$project['project_type']] = array();
@@ -312,7 +225,7 @@ function theme_upgrade_status_report($variables) {
     $row_key = isset($project['title']) ? drupal_strtolower($project['title']) : drupal_strtolower($project['name']);
     $rows[$project['project_type']][$row_key] = array(
       'class' => array($class),
-      'data' => array($row),
+      'data' => $row,
     );
   }
 
@@ -327,10 +240,11 @@ function theme_upgrade_status_report($variables) {
     if (!empty($rows[$type_name])) {
       ksort($rows[$type_name]);
       $output .= "\n<h3>" . $type_label . "</h3>\n";
-      $output .= theme('table', array('header' => $header, 'rows' => $rows[$type_name], 'attributes' => array('class' => array('update'))));
+       $output .= theme('table', ['header' => $header, 'rows' => $rows[$type_name], 'attributes' => ['class' => ['upgrade-status-table']]]);
     }
   }
   drupal_add_css(drupal_get_path('module', 'update') . '/update.css');
+  drupal_add_css(drupal_get_path('module', 'upgrade_status') . '/upgrade_status.css');
   return $output;
 }
 
@@ -367,8 +281,8 @@ function theme_upgrade_status_status_label($variables) {
 #      return '<span class="not-supported">' . t('Not supported!') . '</span>';
       // US: Additionally output the "development stage" of a project; alpha,
       // beta, and RC are all treated as in development.
-      $type = $project['releases'][$project['recommended']]['version'];
-      return '<span class="not-current">'. t('In development: %type', array('%type' => $type)) .'</span>';
+      $version = $project['releases'][$project['recommended']]['version'];
+      return '<span class="not-current">'. t('In development: %version', array('%version' => $version)) .'</span>';
 
     // US: Not applicable.
 #    case UPDATE_NOT_CURRENT:
@@ -378,7 +292,8 @@ function theme_upgrade_status_status_label($variables) {
 #    case UPDATE_CURRENT:
 #      return '<span class="current">' . t('Up to date') . '</span>';
     case UPGRADE_STATUS_STABLE:
-      return '<span class="current">'. t('Available') .'</span>';
+      $version = $project['releases'][$project['recommended']]['version'];
+      return '<span class="current">'. t('Available: %version', ['%version' => $version]) .'</span>';
 
     // US: ...or that a module's been moved into core.
     case UPGRADE_STATUS_CORE:

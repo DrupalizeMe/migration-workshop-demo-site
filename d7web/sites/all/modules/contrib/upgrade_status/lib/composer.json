@@ -1,0 +1,8 @@
+{
+    "name": "drupal_upgrade_status/lib",
+    "description": "Composer dependencies hardwired for upgrade status",
+    "type": "library",
+    "require": {
+        "composer/semver": "^3.3"
+    }
+}
